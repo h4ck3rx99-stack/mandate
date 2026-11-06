@@ -6,7 +6,7 @@ import { keccak256, toHex, type Address, type Hex } from "viem";
 import {
   ROOT_PARENT, delegationToWire, hashRequest, mandateDomain, requestToWire, signDelegation, signRequest, type ServiceConfig,
 } from "@mandate/core";
-import { createApp, execute, linkMessage, migrateWorld, openDb, worldRouter, type ChainPort, type Deps, type IdClaims, type WorldConfig } from "../src/index.js";
+import { createApp, execute, linkMessage, migrateWorld, openDb, worldRouter, type ChainPort, type Deps, type IdClaims, type WorldConfig } from "../src/index";
 
 const USDC = 1_000_000n;
 const REG: Address = "0x00000000000000000000000000000000000000aa";

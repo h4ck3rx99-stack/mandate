@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { executeBodySchema, scopeSchema } from "../src/index.js";
+import { executeBodySchema, scopeSchema } from "../src/index";
 
 const h32 = "0x" + "11".repeat(32);
 const sig = "0x" + "22".repeat(65);

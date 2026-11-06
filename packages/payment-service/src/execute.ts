@@ -1,8 +1,8 @@
 import { EventEmitter } from "node:events";
 import type { Hex } from "viem";
 import { mandateDomain, verifyExecution, type Check, type ServiceConfig, type Violation } from "@mandate/core";
-import type { ChainPort } from "./chain.js";
-import { consumeNonce, type Db, type Decision } from "./db.js";
+import type { ChainPort } from "./chain";
+import { consumeNonce, type Db, type Decision } from "./db";
 
 export interface ExecuteResponse {
   decision: Decision;

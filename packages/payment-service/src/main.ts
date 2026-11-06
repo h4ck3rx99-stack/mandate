@@ -4,11 +4,11 @@ import { resolve } from "node:path";
 import { loadServiceConfig } from "@mandate/core";
 import { writeReceipt } from "@mandate/arkiv";
 import { privateKeyToAccount } from "viem/accounts";
-import { createApp } from "./app.js";
-import { sepoliaChain } from "./chain.js";
-import { openDb } from "./db.js";
-import { reconcile, type Deps } from "./execute.js";
-import { migrateWorld, realOidc, worldRouter, type WorldConfig } from "./world.js";
+import { createApp } from "./app";
+import { sepoliaChain } from "./chain";
+import { openDb } from "./db";
+import { reconcile, type Deps } from "./execute";
+import { migrateWorld, realOidc, worldRouter, type WorldConfig } from "./world";
 
 const envFile = resolve(import.meta.dirname, "../../../.env");
 if (existsSync(envFile)) process.loadEnvFile(envFile);

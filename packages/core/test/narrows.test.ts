@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
-import { narrows, narrowsChain, type Scope, type Dimension } from "../src/index.js";
+import { narrows, narrowsChain, type Scope, type Dimension } from "../src/index";
 
 const USDC = 1_000_000n;
 const T = 2_000_000_000n;

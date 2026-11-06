@@ -14,7 +14,7 @@ import {
   type Scope,
   type VerifyContext,
   type WorldApprovalRecord,
-} from "../src/index.js";
+} from "../src/index";
 
 const USDC = 1_000_000n;
 const NOW = 1_800_000_000n;
@@ -191,7 +191,7 @@ describe("verifyExecution matrix", () => {
   });
 });
 
-import { verifyChain } from "../src/index.js";
+import { verifyChain } from "../src/index";
 describe("verifyChain (registry/CLI, no request)", () => {
   const cctx = { domain, pinnedRoot: owner.address, now: NOW };
   it("valid chain -> ok", async () => {

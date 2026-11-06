@@ -6,7 +6,7 @@ import {
   ROOT_PARENT, delegationToWire, hashRequest, mandateDomain, requestToWire, signDelegation, signRequest,
   type Delegation, type Scope, type ServiceConfig,
 } from "@mandate/core";
-import { openDb, execute, type ChainPort, type Deps } from "../src/index.js";
+import { openDb, execute, type ChainPort, type Deps } from "../src/index";
 
 const USDC = 1_000_000n;
 const NOW = 1_800_000_000n;

@@ -1,7 +1,7 @@
 import express from "express";
-import type { Deps } from "./execute.js";
-import { execute } from "./execute.js";
-import type { RequestRow } from "./db.js";
+import type { Deps } from "./execute";
+import { execute } from "./execute";
+import type { RequestRow } from "./db";
 import type { Router } from "express";
 
 export function createApp(d: Deps, world?: Router) {

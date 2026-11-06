@@ -3,7 +3,7 @@ import { EventEmitter } from "node:events";
 import express from "express";
 import { createRemoteJWKSet, jwtVerify, type JWTPayload } from "jose";
 import { isAddressEqual, recoverMessageAddress, type Address, type Hex } from "viem";
-import type { Db } from "./db.js";
+import type { Db } from "./db";
 
 /**
  * World ID Agent Pass (OIDC step-up). Authentication != permission:

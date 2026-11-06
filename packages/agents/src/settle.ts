@@ -1,6 +1,6 @@
 import { delegationToWire, requestToWire, signRequest, type Delegation } from "@mandate/core";
 import { keccak256, toHex } from "viem";
-import { agentAccount, audience, domain, serviceUrl } from "./env.js";
+import { agentAccount, audience, domain, serviceUrl } from "./env";
 
 export interface PaymentInstruction {
   target: string;

@@ -1,6 +1,6 @@
 import { ROOT_PARENT, signDelegation, type Delegation, type Scope } from "@mandate/core";
 import { keccak256, toHex } from "viem";
-import { addressOf, agentAccount, domain, names } from "./env.js";
+import { addressOf, agentAccount, domain, names } from "./env";
 
 /** Treasury owner (root issuer) grants the operations agent its mandate. Holds only OWNER key. */
 export async function issueRoot(scope: Scope): Promise<Delegation> {

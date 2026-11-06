@@ -1,6 +1,6 @@
 import { signDelegation, type Delegation, type Scope } from "@mandate/core";
 import { keccak256, toHex } from "viem";
-import { addressOf, agentAccount, domain, names } from "./env.js";
+import { addressOf, agentAccount, domain, names } from "./env";
 
 /** Operations agent sub-delegates to the procurement agent. Holds only OPS key. */
 export async function delegateToProcure(parent: Delegation, scope: Scope): Promise<Delegation> {

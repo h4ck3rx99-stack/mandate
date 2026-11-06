@@ -4,12 +4,12 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import express from "express";
 import { delegationToWire, type Delegation } from "@mandate/core";
-import { names, serviceUrl } from "./env.js";
-import { procure, type ProcureDecision, type ProcureResult } from "./procure.js";
-import { settle } from "./settle.js";
-import { revokeOnchain } from "./owner.js";
-import { ensureUpstream, markRevoked } from "./upstream.js";
-import { publishLink } from "./publish.js";
+import { names, serviceUrl } from "./env";
+import { procure, type ProcureDecision, type ProcureResult } from "./procure";
+import { settle } from "./settle";
+import { revokeOnchain } from "./owner";
+import { ensureUpstream, markRevoked } from "./upstream";
+import { publishLink } from "./publish";
 
 const root = resolve(import.meta.dirname, "../../..");
 process.chdir(root);

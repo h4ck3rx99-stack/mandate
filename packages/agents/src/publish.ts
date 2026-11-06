@@ -1,8 +1,8 @@
 import type { Hex } from "viem";
 import type { Delegation } from "@mandate/core";
 import { entityUrl, publishDelegation as writeArkiv } from "@mandate/arkiv";
-import { agentAccount } from "./env.js";
-import { publishDelegation as writeEns } from "./ens.js";
+import { agentAccount } from "./env";
+import { publishDelegation as writeEns } from "./ens";
 
 export interface PublishedLink {
   entityKey: string;

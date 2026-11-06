@@ -2,7 +2,7 @@ import { createPublicClient, createWalletClient, http, parseAbi, toHex, type Add
 import { sepolia } from "viem/chains";
 import { normalize, packetToBytes } from "viem/ens";
 import type { Delegation } from "@mandate/core";
-import { agentAccount } from "./env.js";
+import { agentAccount } from "./env";
 
 /** ENS is discovery, never proof: the payment service never reads these records. */
 export const resolverAbi = parseAbi([

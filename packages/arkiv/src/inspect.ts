@@ -2,7 +2,7 @@ import { createPublicClient, http, isAddressEqual, parseAbi, zeroHash, type Addr
 import { sepolia } from "viem/chains";
 import { normalize } from "viem/ens";
 import { mandateDomain, verifyChain, type Check, type Delegation, type Violation } from "@mandate/core";
-import { fetchById, type ArkivRecord } from "./index.js";
+import { fetchById, type ArkivRecord } from "./index";
 
 export type Status = "USABLE" | "REVOKED" | "EXPIRED" | "DENIED";
 

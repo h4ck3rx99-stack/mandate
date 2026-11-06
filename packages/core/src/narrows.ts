@@ -1,4 +1,4 @@
-import type { Scope, Violation } from "./types.js";
+import type { Scope, Violation } from "./types";
 
 const WILDCARD = "*";
 

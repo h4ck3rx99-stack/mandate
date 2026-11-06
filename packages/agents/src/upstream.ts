@@ -1,9 +1,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { delegationToWire, type Delegation } from "@mandate/core";
-import { names } from "./env.js";
-import { issueRoot } from "./owner.js";
-import { delegateToProcure } from "./ops.js";
-import { publishLink, type PublishedLink } from "./publish.js";
+import { names } from "./env";
+import { issueRoot } from "./owner";
+import { delegateToProcure } from "./ops";
+import { publishLink, type PublishedLink } from "./publish";
 
 const USDC = 1_000_000n;
 const STATE = "data/chain.json";

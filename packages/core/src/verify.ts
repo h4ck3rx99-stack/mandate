@@ -1,8 +1,8 @@
 import { isAddressEqual, recoverTypedDataAddress, type Address, type Hex } from "viem";
-import { EIP712_TYPES, ROOT_PARENT, hashDelegation, hashRequest, type MandateDomain } from "./eip712.js";
-import { narrowsChain } from "./narrows.js";
-import { MAX_CHAIN_DEPTH, executeBodySchema } from "./schema.js";
-import type { Delegation, ExecutionRequest, Violation } from "./types.js";
+import { EIP712_TYPES, ROOT_PARENT, hashDelegation, hashRequest, type MandateDomain } from "./eip712";
+import { narrowsChain } from "./narrows";
+import { MAX_CHAIN_DEPTH, executeBodySchema } from "./schema";
+import type { Delegation, ExecutionRequest, Violation } from "./types";
 
 export interface Check {
   name: string;

@@ -96,5 +96,5 @@ export async function fetchById(id: Hex): Promise<ArkivRecord | undefined> {
   const { entities } = await (arkivPublic() as any).select(selection).from(DelegationEntity).where(eq("id", id)).fetch();
   return entities[0] && decode(entities[0]);
 }
-export * from "./inspect.js";
-export * from "./receipts.js";
+export * from "./inspect";
+export * from "./receipts";

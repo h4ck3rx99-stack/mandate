@@ -3,7 +3,7 @@ import { rabdi } from "@arkiv-network/sdk/chains";
 import { eq } from "@arkiv-network/sdk/query";
 import { addr, bytes, defineSchema, str, u256, u64 } from "@arkiv-network/sdk/schema";
 import { hexToString, http, stringToBytes, type LocalAccount } from "viem";
-import { arkivPublic } from "./index.js";
+import { arkivPublic } from "./index";
 
 /**
  * Public decision receipt written by the PAYMENT SERVICE (entity owner = service wallet) for every final verdict.

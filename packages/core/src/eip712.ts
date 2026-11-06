@@ -1,5 +1,5 @@
 import { hashTypedData, zeroHash, type Address, type Hex, type LocalAccount } from "viem";
-import type { Delegation, ExecutionRequest, Scope } from "./types.js";
+import type { Delegation, ExecutionRequest, Scope } from "./types";
 
 export interface MandateDomain {
   name: "Mandate";

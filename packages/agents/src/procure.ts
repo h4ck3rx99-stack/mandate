@@ -1,6 +1,6 @@
 import { signDelegation, type Delegation } from "@mandate/core";
 import { keccak256, toHex } from "viem";
-import { addressOf, agentAccount, domain, names } from "./env.js";
+import { addressOf, agentAccount, domain, names } from "./env";
 
 export interface ProcureDecision {
   grantMaxAmountUsdc: string;

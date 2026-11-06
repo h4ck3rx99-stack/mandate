@@ -21,3 +21,4 @@ time | files | AI-generated | human review needed
 22:27 | packages/cli/package.json | fix | none
 22:33 | AI/DECISIONS.md | no | decisions are human
 22:44 | packages/arkiv/src/receipts.ts packages/payment-service/* packages/agents/src/{runner,upstream}.ts packages/cli | all | receipt spam rule (only signed chains), runner design
+22:47 | packages/dashboard/* | all UI code | layout, copy, visual design per human decisions
