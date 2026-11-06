@@ -1,0 +1,10 @@
+{
+  "name": "@mandate/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup": "git clone --depth 1 https://github.com/foundry-rs/forge-std lib/forge-std",
+    "test": "wsl -d Ubuntu-22.04 -- bash -lc \"cd \\\"$(wslpath -a .)\\\" && ~/.foundry/bin/forge test\"",
+    "build": "wsl -d Ubuntu-22.04 -- bash -lc \"cd \\\"$(wslpath -a .)\\\" && ~/.foundry/bin/forge build\""
+  }
+}

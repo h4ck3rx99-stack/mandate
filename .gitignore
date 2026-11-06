@@ -13,3 +13,5 @@ graphify-out/
 coverage/
 # local hook config with machine-specific absolute paths
 .claude/settings.json
+packages/contracts/lib/
+packages/contracts/out/
