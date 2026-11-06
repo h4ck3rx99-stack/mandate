@@ -11,8 +11,8 @@ export default async function Agent({ params }: { params: Promise<{ ens: string 
   return (
     <main className="mx-auto max-w-[1100px] px-6 pb-16 pt-10">
       <p className="font-mono text-xs text-mute">agent profile</p>
-      <h1 className="break-all font-display text-3xl font-extrabold tracking-tight">{name}</h1>
-      <p className={`mt-2 font-display text-2xl font-bold ${tone[r.status]}`}>{r.status}</p>
+      <h1 className="break-all font-display text-3xl font-medium tracking-tight">{name}</h1>
+      <p className={`mt-2 font-display text-2xl font-medium ${tone[r.status]}`}>{r.status}</p>
       <p className="text-sm text-mute">{r.reasons.join(" ")}</p>
 
       <section className="mt-8 grid gap-6 md:grid-cols-2">

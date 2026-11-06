@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, Geist_Mono } from "next/font/google";
 import { Nav } from "@/components/Nav";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"] });
-const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
+const dm = DM_Sans({ variable: "--font-dm", subsets: ["latin"], weight: ["400", "500"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${geist.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" className={`${dm.variable} ${geistMono.variable} antialiased`}>
       {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla) inject attributes on <body> */}
       <body className="min-h-screen bg-bg text-ink" suppressHydrationWarning>
         <Nav />

@@ -17,7 +17,7 @@ export function Invoice({ s }: { s: StageState }) {
                 inv.injectedLines.includes(line) ? (
                   <span key={i} className="block">
                     <span className="underline decoration-red decoration-2 underline-offset-4">{line}</span>{" "}
-                    <span className="rounded-sm bg-red px-1 font-sans text-[10px] font-bold uppercase text-bg">injected</span>
+                    <span className="rounded-md bg-red px-1 font-sans text-[10px] font-medium uppercase text-bg">injected</span>
                   </span>
                 ) : (
                   <span key={i} className="block">{line || " "}</span>

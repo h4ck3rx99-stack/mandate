@@ -14,3 +14,5 @@
 | 22:33 | Motion: restrained; hold tripped breaker ~1.5 s before showing ASKED 450 / ALLOWED 150; no screen flash; respect prefers-reduced-motion | human |
 | 22:41 | World integration paused until ~02:00 (portal laggy); code stays, PENDING path live | human |
 | 22:41 | Arkiv addition: decision receipts written by the payment service, read by dashboard timeline/profile + CLI | human |
+| 00:45 | Landing: whole site "builds itself" — agent cursors type text and drag out boxes with resize handles; autoplay scroll on open | human |
+| 01:27 | Visual style switched from "Circuit Breaker" lime to a deep-teal terminal (user-supplied style reference): teal surface stack, DM Sans medium headings, aurora gradient on primary CTAs only, pale pink for figures; red/amber kept for DENIED/PENDING | human |

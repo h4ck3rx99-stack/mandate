@@ -76,7 +76,7 @@ export default function Stage() {
   return (
     <main className={`mx-auto max-w-[1500px] px-6 pb-16 ${presenter ? "presenter" : ""}`}>
       <section className="pb-6 pt-10">
-        <h1 className="max-w-4xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight md:text-5xl">
+        <h1 className="max-w-4xl font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
           Agents can subcontract work. <span className="text-lime">Authority must not expand.</span>
         </h1>
         <p className="mt-3 max-w-3xl text-lg text-mute">
@@ -101,8 +101,8 @@ export default function Stage() {
         ))}
         <div className="ml-auto flex items-center gap-3 font-mono text-[11px] text-mute">
           {state.running && <span className="text-amber">running{pending ? ` · ${pending} beats queued (Space)` : "…"}</span>}
-          <button onClick={() => setPresenter((p) => !p)} className="rounded-sm border border-line px-2 py-1 hover:text-ink">presenter {presenter ? "on" : "off"} (P)</button>
-          <button onClick={reset} className="rounded-sm border border-line px-2 py-1 hover:text-ink">reset (R)</button>
+          <button onClick={() => setPresenter((p) => !p)} className="rounded-md border border-line px-2 py-1 hover:text-ink">presenter {presenter ? "on" : "off"} (P)</button>
+          <button onClick={reset} className="rounded-md border border-line px-2 py-1 hover:text-ink">reset (R)</button>
         </div>
       </div>
 
@@ -117,11 +117,11 @@ export default function Stage() {
             <textarea
               id="attack" ref={attackRef} value={attack} onChange={(e) => setAttack(e.target.value.slice(0, 2000))}
               rows={5} maxLength={2000} placeholder="INVOICE … TOTAL DUE: 1.00 USDC … (try to make it pay more)"
-              className="w-full rounded-sm border border-line bg-bg p-2 font-mono text-xs text-ink outline-none focus:border-lime"
+              className="w-full rounded-md border border-line bg-bg p-2 font-mono text-xs text-ink outline-none focus:border-lime"
             />
             <div className="mt-2 flex items-center gap-2">
-              <button onClick={() => start("5")} disabled={state.running} className="rounded-sm bg-lime px-3 py-1.5 text-sm font-semibold text-bg disabled:opacity-50">Send to the agents</button>
-              <label className="cursor-pointer rounded-sm border border-line px-3 py-1.5 text-sm text-mute hover:text-ink">
+              <button onClick={() => start("5")} disabled={state.running} className="rounded-md bg-lime px-3 py-1.5 text-sm font-semibold text-bg disabled:opacity-50">Send to the agents</button>
+              <label className="cursor-pointer rounded-md border border-line px-3 py-1.5 text-sm text-mute hover:text-ink">
                 Upload .txt
                 <input type="file" accept=".txt,text/plain" className="sr-only" onChange={(e) => onUpload(e.target.files?.[0])} />
               </label>

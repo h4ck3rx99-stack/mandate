@@ -33,12 +33,12 @@ export function RegistryTable({ rows, receipts }: { rows: InspectResult[]; recei
     <>
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <label className="text-sm text-mute" htmlFor="st">Status</label>
-        <select id="st" value={status} onChange={(e) => setStatus(e.target.value)} className="rounded-sm border border-line bg-panel px-2 py-1 text-sm">
+        <select id="st" value={status} onChange={(e) => setStatus(e.target.value)} className="rounded-md border border-line bg-panel px-2 py-1 text-sm">
           {["ALL", "USABLE", "REVOKED", "EXPIRED", "DENIED"].map((s) => <option key={s}>{s}</option>)}
         </select>
         <span className="ml-auto flex gap-2">
-          <button onClick={exportCsv} className="rounded-sm border border-line px-3 py-1.5 text-sm hover:border-lime">Export evidence CSV</button>
-          <button onClick={exportJson} className="rounded-sm border border-line px-3 py-1.5 text-sm hover:border-lime">Export evidence JSON</button>
+          <button onClick={exportCsv} className="rounded-md border border-line px-3 py-1.5 text-sm hover:border-lime">Export evidence CSV</button>
+          <button onClick={exportJson} className="rounded-md border border-line px-3 py-1.5 text-sm hover:border-lime">Export evidence JSON</button>
         </span>
       </div>
       <div className="mt-3 overflow-x-auto rounded-md border border-line">
@@ -50,7 +50,7 @@ export function RegistryTable({ rows, receipts }: { rows: InspectResult[]; recei
             {shown.map((r) => (
               <tr key={r.name} className="border-t border-line align-top">
                 <td className="p-3"><a href={`/agent/${r.name}`} className="font-mono text-xs hover:text-lime">{r.name}</a></td>
-                <td className="p-3"><span className={`rounded-sm border px-2 py-0.5 font-mono text-xs font-bold ${tone[r.status]}`}>{r.status}</span></td>
+                <td className="p-3"><span className={`rounded-md border px-2 py-0.5 font-mono text-xs font-medium ${tone[r.status]}`}>{r.status}</span></td>
                 <td className="p-3 text-xs">{r.reasons.join(" ")}</td>
                 <td className="p-3 font-mono text-[11px]">
                   {r.links.map((l, i) => (
@@ -68,7 +68,7 @@ export function RegistryTable({ rows, receipts }: { rows: InspectResult[]; recei
       </div>
 
       <div className="mt-10 flex items-center gap-3">
-        <h2 className="font-display text-2xl font-bold">Decision receipts (read from Arkiv)</h2>
+        <h2 className="font-display text-2xl font-medium">Decision receipts (read from Arkiv)</h2>
         <fieldset className="flex gap-3 text-sm" aria-label="Decision filter">
           {["ALL", "EXECUTED", "DENIED"].map((d) => (
             <label key={d} className="flex items-center gap-1"><input type="radio" name="dec" checked={decision === d} onChange={() => setDecision(d)} />{d}</label>

@@ -29,12 +29,12 @@ function PermitCard({ link, broken, revoked }: { link: Link; broken?: string[]; 
         {caveat("expiry", new Date(Number(link.scope.expiry) * 1000).toISOString().slice(5, 16).replace("T", " "))}
       </div>
       <div className="mt-2 flex flex-wrap gap-1.5 font-mono text-[10px]">
-        <span className="rounded-sm border border-line px-1.5 py-0.5" title={link.sig}>sig {short(link.sig, 4)}</span>
-        <span className={`rounded-sm border px-1.5 py-0.5 ${revoked ? "border-red text-red" : "border-line text-mute"}`}>{revoked ? "REVOKED onchain" : "not revoked"}</span>
+        <span className="rounded-md border border-line px-1.5 py-0.5" title={link.sig}>sig {short(link.sig, 4)}</span>
+        <span className={`rounded-md border px-1.5 py-0.5 ${revoked ? "border-red text-red" : "border-line text-mute"}`}>{revoked ? "REVOKED onchain" : "not revoked"}</span>
         {link.arkivUrl ? (
-          <a href={link.arkivUrl} target="_blank" rel="noreferrer" className="rounded-sm border border-line px-1.5 py-0.5 hover:border-lime hover:text-lime">Arkiv ↗</a>
+          <a href={link.arkivUrl} target="_blank" rel="noreferrer" className="rounded-md border border-line px-1.5 py-0.5 hover:border-lime hover:text-lime">Arkiv ↗</a>
         ) : (
-          <span className="rounded-sm border border-line px-1.5 py-0.5 text-mute">not published</span>
+          <span className="rounded-md border border-line px-1.5 py-0.5 text-mute">not published</span>
         )}
       </div>
     </div>
@@ -88,8 +88,8 @@ export function Wire({ s }: { s: StageState }) {
         className={`flex items-center justify-between rounded-md border-2 px-4 py-3 ${tripped ? "border-red" : passed ? "border-lime" : "border-line"}`}
         role="status"
       >
-        <span className="font-display text-sm font-bold uppercase tracking-widest">Payment service breaker</span>
-        <span className={`font-mono text-sm font-bold ${tripped ? "text-red" : passed ? "text-lime" : last?.decision === "PENDING" ? "text-amber" : "text-mute"}`}>
+        <span className="font-display text-sm font-medium uppercase tracking-widest">Payment service breaker</span>
+        <span className={`font-mono text-sm font-medium ${tripped ? "text-red" : passed ? "text-lime" : last?.decision === "PENDING" ? "text-amber" : "text-mute"}`}>
           {tripped ? "TRIPPED" : passed ? "CLOSED · current passed" : last?.decision === "PENDING" ? "HELD · needs human" : "armed"}
         </span>
       </div>

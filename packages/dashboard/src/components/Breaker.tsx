@@ -14,7 +14,7 @@ function Checklist({ r }: { r: ServiceResponse }) {
     <ol className="flex flex-col gap-1.5">
       {r.checks.slice(0, shown).map((c, i) => (
         <motion.li key={i} initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} className="flex gap-2 text-[13px]">
-          <span className={`mt-0.5 w-12 shrink-0 font-mono text-[10px] font-bold ${c.ok ? "text-lime" : "text-red"}`}>{c.ok ? "PASS" : "FAIL"}</span>
+          <span className={`mt-0.5 w-12 shrink-0 font-mono text-[10px] font-medium ${c.ok ? "text-lime" : "text-red"}`}>{c.ok ? "PASS" : "FAIL"}</span>
           <span>
             <span className={c.ok ? "" : "font-semibold text-red"}>{c.plainEnglish}</span>
             <span className="block break-all font-mono text-[10.5px] text-mute">{c.name} · {c.detail}</span>
@@ -30,10 +30,10 @@ function MoneyShot({ asked, allowed }: { asked: bigint; allowed: bigint }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-md border border-red/60 bg-panel p-4">
       <div className="flex items-baseline justify-between font-display">
-        <span className="text-2xl font-bold text-red">ASKED {usdc(asked.toString())} USDC</span>
-        <span className="text-2xl font-bold text-lime">ALLOWED {usdc(allowed.toString())} USDC</span>
+        <span className="text-2xl font-medium text-red">ASKED {usdc(asked.toString())} USDC</span>
+        <span className="text-2xl font-medium text-lime">ALLOWED {usdc(allowed.toString())} USDC</span>
       </div>
-      <div className="mt-3 flex h-3 w-full overflow-hidden rounded-sm bg-line" aria-hidden>
+      <div className="mt-3 flex h-3 w-full overflow-hidden rounded-md bg-line" aria-hidden>
         <div className="h-full bg-lime" style={{ width: `${pct}%` }} />
         <motion.div className="h-full bg-red" initial={{ width: 0 }} animate={{ width: `${100 - pct}%` }} transition={{ duration: 0.6 }} />
       </div>
@@ -57,7 +57,7 @@ function Result({ r }: { r: ServiceResponse }) {
         className={`rounded-md border-2 p-4 ${r.decision === "EXECUTED" ? "border-lime" : r.decision === "DENIED" ? "border-red" : "border-amber"}`}
         role="status"
       >
-        <p className={`font-display text-3xl font-extrabold ${r.decision === "EXECUTED" ? "text-lime" : r.decision === "DENIED" ? "text-red" : "text-amber"}`}>{r.decision}</p>
+        <p className={`font-display text-3xl font-medium ${r.decision === "EXECUTED" ? "text-lime" : r.decision === "DENIED" ? "text-red" : "text-amber"}`}>{r.decision}</p>
         {r.decision === "EXECUTED" && r.txHash ? (
           <a className="font-mono text-xs text-lime underline" href={etherscanTx(r.txHash)} target="_blank" rel="noreferrer">Payment on Etherscan: {short(r.txHash)} ↗</a>
         ) : r.decision === "PENDING" && r.txHash ? (
@@ -98,7 +98,7 @@ export function Breaker({ s }: { s: StageState }) {
           <p className="font-semibold text-amber">Above the human threshold: the verified owner must approve this exact request.</p>
           <p className="font-mono text-[10.5px] text-mute">request {short(s.world.requestHash, 8)}</p>
           {!s.world.status && (
-            <a href={s.world.approveUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block rounded-sm bg-amber px-3 py-1.5 font-semibold text-bg">
+            <a href={s.world.approveUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block rounded-md bg-amber px-3 py-1.5 font-semibold text-bg">
               Approve with World ID ↗
             </a>
           )}
@@ -113,7 +113,7 @@ export function Breaker({ s }: { s: StageState }) {
       {s.replay && (
         <div className="rounded-md border border-red/60 bg-panel p-3">
           <p className="text-sm">Replaying the exact same signed request…</p>
-          <p className="font-display text-xl font-bold text-red">{s.replay.decision}</p>
+          <p className="font-display text-xl font-medium text-red">{s.replay.decision}</p>
           <p className="text-sm">{s.replay.checks.find((c) => !c.ok)?.plainEnglish}</p>
           <p className="font-mono text-xs text-mute">treasury USDC {usdc(s.replay.balanceBefore)} → {usdc(s.replay.balanceAfter)}</p>
         </div>

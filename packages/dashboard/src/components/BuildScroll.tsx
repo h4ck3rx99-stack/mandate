@@ -183,8 +183,9 @@ export function BuildScroll({ names }: { names: string[] }) {
       <div className={reduce ? "px-4 py-8" : "sticky top-[53px] flex h-[calc(100vh-53px)] flex-col px-6 pb-4 pt-3"}>
         <div className="mx-auto flex w-full max-w-[1500px] flex-1 flex-col">
           <div ref={canvas} className="relative min-h-[520px] flex-1">
+            <div className="orb pointer-events-none absolute -right-[10%] -top-[25%] aspect-square w-[60%] rounded-full" aria-hidden />
             {/* Headline */}
-            <h1 className="absolute left-[3%] top-[6%] font-display text-[clamp(30px,5vw,80px)] font-extrabold leading-[0.98] tracking-tight">
+            <h1 className="absolute left-[3%] top-[6%] font-display text-[clamp(30px,5vw,80px)] font-medium leading-[0.98] tracking-tight">
               <span>{l1}{typingOwner && l2 === "" && caretEl}</span>
               <br />
               <span className="text-lime">{l2}{typingOwner && l2 !== "" && caretEl}</span>
@@ -213,13 +214,13 @@ export function BuildScroll({ names }: { names: string[] }) {
               const named = typed(names[i] ?? "", p, ENS_AT(i), ENS_AT(i) + 0.016);
               const stored = p >= ARKIV_AT(i) + 0.012;
               return (
-                <div key={i} className={`absolute border bg-panel ${tripped ? "border-red" : "border-line"}`}
+                <div key={i} className={`absolute rounded-2xl border bg-panel ${tripped ? "border-red" : "border-transparent"}`}
                   style={box({ l: cardLeft(i), t: CARD_TOP, w: CARD_W, h: CARD_H }, ease(d))}>
                   <Inner d={d} className="p-[6%]">
                     <div className="truncate font-mono text-[11px] text-lime">{named || <span className="text-mute">unnamed agent</span>}</div>
                     <div className="mt-1 font-mono text-[11px] text-mute">pay · supplier-A</div>
                     <div className="mt-2 font-mono text-[10px] uppercase tracking-wider text-mute">{i === 0 ? "issuer · World-linked" : "max / request"}</div>
-                    <div className={`font-display text-[clamp(18px,2.2vw,34px)] font-bold tabular-nums ${tripped ? "text-red" : ""}`}>
+                    <div className={`font-display text-[clamp(18px,2.2vw,34px)] font-medium tabular-nums ${tripped ? "text-red" : "text-pink"}`}>
                       {typed(MAX[i]!, p, CARD_DRAW[i]![1] - 0.02, CARD_DRAW[i]![1])}
                     </div>
                     {stored && <div className="absolute bottom-2 right-2 border border-line px-1.5 font-mono text-[10px] text-mute">arkiv ✓ signed</div>}
@@ -230,10 +231,10 @@ export function BuildScroll({ names }: { names: string[] }) {
             })}
 
             {/* Payment request */}
-            <div className={`absolute border bg-panel ${rogue ? "border-red" : "border-line"}`} style={{ ...box(PAY, ease(payD)), transform: `translateX(${shake * 0.8}%)` }}>
+            <div className={`absolute rounded-md border bg-panel ${rogue ? "border-red" : "border-transparent"}`} style={{ ...box(PAY, ease(payD)), transform: `translateX(${shake * 0.8}%)` }}>
               <Inner d={payD} className="flex items-center gap-3 px-4">
                 <span className="font-mono text-xs text-mute">pay</span>
-                <span className={`min-w-[7ch] border-b font-display text-[clamp(20px,2.4vw,38px)] font-bold tabular-nums ${p < 0.74 ? "border-red text-red" : "border-lime"} ${denied ? "line-through" : ""}`}>
+                <span className={`min-w-[7ch] border-b font-display text-[clamp(20px,2.4vw,38px)] font-medium tabular-nums ${p < 0.74 ? "border-red text-red" : "border-lime"} ${denied ? "line-through" : ""}`}>
                   {amount}{(typingRogue || typingSettle) && caretEl}
                 </span>
                 <span className="font-mono text-xs text-mute">USDC → supplier-A</span>
@@ -242,9 +243,9 @@ export function BuildScroll({ names }: { names: string[] }) {
             </div>
 
             {/* Breaker verdict */}
-            <div className={`absolute border-l-4 bg-panel ${denied ? "border-red" : pending ? "border-amber" : executed ? "border-lime" : "border-line"}`} style={box(VERDICT, ease(verdictD))}>
+            <div className={`absolute rounded-md border-l-4 bg-panel ${denied ? "border-red" : pending ? "border-amber" : executed ? "border-lime" : "border-line"}`} style={box(VERDICT, ease(verdictD))}>
               <Inner d={verdictD} className="px-4 py-3">
-                <div className={`font-display text-[clamp(18px,2vw,30px)] font-extrabold ${denied ? "text-red" : pending ? "text-amber" : "text-lime"}`}>
+                <div className={`font-display text-[clamp(18px,2vw,30px)] font-medium ${denied ? "text-red" : pending ? "text-amber" : "text-lime"}`}>
                   {denied ? "DENIED · leaf_scope" : pending ? "PENDING · World approval" : executed ? "EXECUTED" : "checking 12 steps…"}
                 </div>
                 <div className="mt-1 font-mono text-xs text-mute">
@@ -261,8 +262,8 @@ export function BuildScroll({ names }: { names: string[] }) {
 
             {/* CTA */}
             <div className="absolute bottom-[4%] right-[3%] flex gap-2" style={{ opacity: seg(p, 0.92, 0.96), pointerEvents: p > 0.92 ? "auto" : "none" }}>
-              <Link href="/stage" className="bg-lime px-5 py-3 font-semibold text-bg">Run it live →</Link>
-              <Link href="/docs" className="border border-line bg-panel px-5 py-3 font-semibold">Read the docs</Link>
+              <Link href="/stage" className="btn-aurora px-6 py-4">Run it live →</Link>
+              <Link href="/docs" className="btn-ghost bg-bg px-6 py-4">Read the docs</Link>
             </div>
 
             {/* Cursors */}
@@ -279,7 +280,7 @@ export function BuildScroll({ names }: { names: string[] }) {
           <div className="flex items-baseline gap-4 border-t border-line py-3" aria-live="polite">
             <span className="font-mono text-xs text-lime">{step.n}</span>
             <span className="font-mono text-[10px] uppercase text-mute">illustration</span>
-            <span className="font-display text-lg font-bold">{step.title}</span>
+            <span className="font-display text-lg font-medium">{step.title}</span>
             <span className="hidden text-sm text-mute md:inline">{step.body}</span>
             {!reduce && (
               <button onClick={() => (auto ? window.dispatchEvent(new Event("wheel")) : setRun((r) => r + 1))}

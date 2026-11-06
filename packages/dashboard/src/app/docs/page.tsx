@@ -32,7 +32,7 @@ const CHECKS = [
 ];
 
 const H = ({ id, children }: { id: string; children: string }) => (
-  <h2 id={id} className="scroll-mt-20 border-t border-line pt-10 font-display text-3xl font-extrabold tracking-tight">
+  <h2 id={id} className="scroll-mt-20 border-t border-line pt-10 font-display text-3xl font-medium tracking-tight">
     <Type text={children} by={who(id.length)} />
   </h2>
 );
@@ -65,7 +65,7 @@ export default function Docs() {
 
       <article className="max-w-3xl space-y-6 pb-24 leading-relaxed text-ink/90">
         <div>
-          <h1 id="overview" className="font-display text-5xl font-extrabold tracking-tight"><Type text="Mandate docs" by={who(11)} tone="lime" /></h1>
+          <h1 id="overview" className="font-display text-5xl font-medium tracking-tight"><Type text="Mandate docs" by={who(11)} tone="lime" /></h1>
           <p className="mt-4 text-lg text-mute">
             Agents can subcontract work. Authority must not expand. Mandate is a chain of signed, narrowing permits from a human-owned treasury down to the agent that pays, and a payment service that re-checks the whole chain before moving a single cent.
           </p>

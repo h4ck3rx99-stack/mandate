@@ -52,7 +52,7 @@ function RequestRow({ r }: { r: ServiceResponse }) {
   const c = r.decision === "EXECUTED" ? "text-lime" : r.decision === "DENIED" ? "text-red" : "text-amber";
   return (
     <span>
-      <span className={`font-bold ${c}`}>{r.decision}</span> {failed ? `at ${failed.name}: ${failed.plainEnglish}` : ""}
+      <span className={`font-medium ${c}`}>{r.decision}</span> {failed ? `at ${failed.name}: ${failed.plainEnglish}` : ""}
       {r.txHash && <a className="ml-2 underline" href={etherscanTx(r.txHash)} target="_blank" rel="noreferrer">{short(r.txHash)}</a>}
       <span className="ml-2 text-mute">treasury {usdc(r.balanceAfter)}</span>
     </span>

@@ -7,7 +7,7 @@ description: "Use for any Mandate UI work; lists the 43 prepared hackathon build
 
 USE = build. MAYBE = only if ahead of schedule at 23:00. SKIP = not built (reason given).
 
-Design theme: "CIRCUIT BREAKER" (dark mission control). Colors #0B0D10 bg, #12151A panels, #232831 borders, one accent lime #C6FF3D, red #FF4D4D, amber pending; status always has text. Fonts: Bricolage Grotesque (headings/numbers), Geist (body), Geist Mono (hashes/amounts); never Inter/Arial. Banned: purple/blue gradients, aurora/particles, glassmorphism, emoji icons, stat-tile grids, >1 decorative effect, lorem ipsum.
+Design theme (superseded 01:27 by deep-teal terminal, see AI/DECISIONS.md): "CIRCUIT BREAKER" (dark mission control). Colors #0B0D10 bg, #12151A panels, #232831 borders, one accent lime #C6FF3D, red #FF4D4D, amber pending; status always has text. Fonts: Bricolage Grotesque (headings/numbers), Geist (body), Geist Mono (hashes/amounts); never Inter/Arial. Banned: purple/blue gradients, aurora/particles, glassmorphism, emoji icons, stat-tile grids, >1 decorative effect, lorem ipsum.
 
 | # | Block | Decision | Note |
 |---|-------|----------|------|

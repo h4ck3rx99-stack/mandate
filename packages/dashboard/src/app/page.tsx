@@ -28,13 +28,13 @@ export default function Home() {
 
       <section className="mx-auto max-w-[1500px] px-6 py-24">
         <p className="font-mono text-xs uppercase tracking-widest text-lime"><Type text="The payment service" by={who(6)} /></p>
-        <h2 className="mt-3 max-w-4xl font-display text-5xl font-extrabold tracking-tight"><Type text="Six rules. Every one fails closed." by={who(11)} tone="lime" delay={250} /></h2>
+        <h2 className="mt-3 max-w-4xl font-display text-5xl font-medium tracking-tight"><Type text="Six rules. Every one fails closed." by={who(11)} tone="lime" delay={250} /></h2>
         <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {RULES.map(([t, b], i) => (
             <Box as="li" key={t} by={who(i)} delay={150 * i} className="h-full">
-              <div className="h-full border border-line bg-panel p-6">
+              <div className="h-full rounded-2xl bg-panel p-9">
                 <span className="font-mono text-xs text-mute">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="mt-2 font-display text-2xl font-bold">{t}</h3>
+                <h3 className="mt-2 font-display text-2xl font-medium">{t}</h3>
                 <p className="mt-2 text-mute">{b}</p>
               </div>
             </Box>
@@ -50,9 +50,9 @@ export default function Home() {
         <div className="mt-10 grid gap-4 lg:grid-cols-3">
           {STACK.map(([name, role, body], i) => (
             <Box key={name} by={[who(3), who(4), who(5)][i]!} delay={200 * i} className="h-full">
-              <div className="h-full border border-line bg-panel p-8">
+              <div className="h-full rounded-2xl bg-panel p-9">
                 <div className="flex items-baseline gap-3">
-                  <h3 className="font-display text-4xl font-extrabold">{name}</h3>
+                  <h3 className="font-display text-4xl font-medium">{name}</h3>
                   <span className="font-mono text-xs text-mute">{role}</span>
                 </div>
                 <p className="mt-4 text-mute">{body}</p>
@@ -64,18 +64,18 @@ export default function Home() {
 
       <section className="mx-auto grid max-w-[1500px] gap-12 px-6 py-24 lg:grid-cols-2">
         <div>
-          <h2 className="font-display text-5xl font-extrabold tracking-tight"><Type text="Check any agent yourself." by={who(8)} /></h2>
+          <h2 className="font-display text-5xl font-medium tracking-tight"><Type text="Check any agent yourself." by={who(8)} /></h2>
           <p className="mt-4 max-w-xl text-mute">
             <Type by={who(3)} cps={140} delay={300} text="The CLI resolves the name on ENS, walks the signed chain on Arkiv, re-verifies every signature and limit locally, and reads revocations from Sepolia." />
           </p>
           <div className="mt-8 flex flex-wrap gap-2">
-            <Box by={who(11)} delay={500} dur={400}><Link href="/stage" className="block bg-lime px-5 py-3 font-semibold text-bg">Run the live demo →</Link></Box>
-            <Box by={who(5)} delay={650} dur={400}><Link href="/docs" className="block border border-line bg-bg px-5 py-3 font-semibold hover:border-lime">Docs</Link></Box>
-            <Box by={who(9)} delay={800} dur={400}><a href={repo} target="_blank" rel="noreferrer" className="block border border-line bg-bg px-5 py-3 font-semibold hover:border-lime">GitHub ↗</a></Box>
+            <Box by={who(11)} delay={500} dur={400}><Link href="/stage" className="block btn-aurora px-6 py-4">Run the live demo →</Link></Box>
+            <Box by={who(5)} delay={650} dur={400}><Link href="/docs" className="block btn-ghost px-6 py-4">Docs</Link></Box>
+            <Box by={who(9)} delay={800} dur={400}><a href={repo} target="_blank" rel="noreferrer" className="block btn-ghost px-6 py-4">GitHub ↗</a></Box>
           </div>
         </div>
         <Box by={who(8)} delay={200} dur={800}>
-          <pre className="overflow-x-auto border border-line bg-panel p-6 font-mono text-xs leading-relaxed">
+          <pre className="overflow-x-auto rounded-2xl bg-deep p-8 font-mono text-xs leading-relaxed">
             <span className="text-mute">$ </span>pnpm -C packages/cli mandate verify {names[3]}{"\n"}
             <span className="text-lime">USABLE</span>  {names[3]}{"\n"}
             {"  Signatures, continuity, narrowing, expiry and revocation all check out.\n"}
@@ -85,8 +85,8 @@ export default function Home() {
         </Box>
       </section>
 
-      <Box as="footer" by={who(10)} dur={900} className="border-t border-line">
-        <div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-6 px-6 py-8 font-mono text-xs text-mute">
+      <Box as="footer" by={who(10)} dur={900} className="bg-deep">
+        <div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-6 px-6 py-16 font-mono text-xs text-mute">
           <span>MANDATE · ETHGlobal Mumbai 2026</span>
           <a className="hover:text-ink" href={`https://sepolia.etherscan.io/address/${cfg().registry}`} target="_blank" rel="noreferrer">RevocationRegistry ↗</a>
           <a className="hover:text-ink" href={repo} target="_blank" rel="noreferrer">Source ↗</a>

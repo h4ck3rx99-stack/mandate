@@ -1,21 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0b0d10;
-  --color-panel: #12151a;
-  --color-line: #232831;
-  --color-ink: #e6e8eb;
-  --color-mute: #8a93a3;
-  --color-lime: #c6ff3d;
-  --color-red: #ff4d4d;
-  --color-amber: #ffb547;
-  --font-display: var(--font-bricolage);
-  --font-sans: var(--font-geist);
+  /* Deep-water terminal: teal surface stack, rationed accent, status colours kept for verdicts. */
+  --color-bg: #012624;
+  --color-deep: #011d1c;
+  --color-panel: #003734;
+  --color-line: #1c4a46;
+  --color-ink: #edfffe;
+  --color-white: #ffffff;
+  --color-mute: #bbc7c6;
+  --color-lime: #cbfffc;
+  --color-pink: #fde9ff;
+  --color-red: #ff6b6b;
+  --color-amber: #ffc46b;
+  --font-display: var(--font-dm);
+  --font-sans: var(--font-dm);
   --font-mono: var(--font-geist-mono);
 }
 
 html { background: var(--color-bg); color: var(--color-ink); }
-body { font-family: var(--font-geist), system-ui, sans-serif; background-image: radial-gradient(#1a1e25 1px, transparent 1px); background-size: 24px 24px; }
+body { font-family: var(--font-dm), system-ui, sans-serif; background-image: radial-gradient(#0a3c39 1px, transparent 1px); background-size: 24px 24px; }
 .presenter { font-size: 125%; }
 ::selection { background: var(--color-lime); color: var(--color-bg); }
 
@@ -30,3 +34,13 @@ body { font-family: var(--font-geist), system-ui, sans-serif; background-image: 
 .caret { display: inline-block; width: 0.08em; height: 0.9em; margin-left: 0.04em; background: var(--color-lime); vertical-align: -0.08em; animation: blink 1s steps(1) infinite; }
 @keyframes pulse-w { 50% { opacity: 0.55; } }
 .wire-pulse { animation: pulse-w 1.6s ease-in-out infinite; }
+
+/* Display type: medium weight only, tight tracking at size. */
+.font-display { font-weight: 500; letter-spacing: -0.04em; }
+@layer base { h1, h2, h3 { color: var(--color-white); } }
+/* Primary CTA: the one place the aurora gradient appears. */
+.btn-aurora { background: linear-gradient(90deg, #cbfffc 0%, #edfffe 26%, #fffdfa 48%, #fad1ff 89%); color: #222; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px; font-weight: 500; }
+.btn-ghost { border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px; font-weight: 500; }
+.btn-ghost:hover { border-color: var(--color-lime); }
+/* Bioluminescent orb behind the hero. */
+.orb { background: radial-gradient(circle at 35% 35%, rgba(203,255,252,0.22), rgba(0,130,124,0.18) 38%, rgba(250,209,255,0.10) 60%, transparent 72%); filter: blur(8px); }
