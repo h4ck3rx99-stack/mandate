@@ -12,7 +12,7 @@ const pub = createPublicClient({ chain: sepolia, transport: http(rpc) });
 const wallet = createWalletClient({ chain: sepolia, transport: http(rpc), account: from });
 const TARGET = parseEther(process.argv[2] ?? "0.006");
 
-for (const role of ["SERVICE", "PLAYGROUND_SERVICE", "OWNER", "OPS", "PROCURE", "SETTLE"]) {
+for (const role of ["SERVICE", "PLAYGROUND_SERVICE", "OWNER", "OPS", "PROCURE", "SETTLE", "SUPPLIER_A"]) {
   const to = privateKeyToAccount(process.env[`${role}_PRIVATE_KEY`] as Hex).address;
   const bal = await pub.getBalance({ address: to });
   if (bal >= TARGET) { console.log(role.padEnd(20), "ok", formatEther(bal)); continue; }

@@ -9,6 +9,7 @@
     "keygen": "tsx scripts/keygen.ts",
     "fund:eth": "tsx scripts/fund-eth.ts",
     "scenarios": "tsx scripts/scenarios.ts",
+    "recycle": "tsx scripts/recycle-usdc.ts",
     "service": "pnpm -C packages/payment-service start"
   },
   "devDependencies": {
