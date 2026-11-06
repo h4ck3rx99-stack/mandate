@@ -20,3 +20,4 @@ time | files | AI-generated | human review needed
 22:26 | packages/cli packages/arkiv/src/inspect.ts packages/agents/src/publish.ts packages/core/src/verify.ts scripts/scenarios.ts | all | fail-closed rules for stale/foreign-owned Arkiv records
 22:27 | packages/cli/package.json | fix | none
 22:33 | AI/DECISIONS.md | no | decisions are human
+22:44 | packages/arkiv/src/receipts.ts packages/payment-service/* packages/agents/src/{runner,upstream}.ts packages/cli | all | receipt spam rule (only signed chains), runner design
