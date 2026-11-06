@@ -2,8 +2,9 @@ import express from "express";
 import type { Deps } from "./execute.js";
 import { execute } from "./execute.js";
 import type { RequestRow } from "./db.js";
+import type { Router } from "express";
 
-export function createApp(d: Deps) {
+export function createApp(d: Deps, world?: Router) {
   const app = express();
   app.disable("x-powered-by");
   app.use(express.json({ limit: "64kb" }));
@@ -15,6 +16,7 @@ export function createApp(d: Deps) {
     next();
   });
 
+  if (world) app.use(world);
   app.get("/health", (_req, res) => void res.json({ ok: true, audience: d.cfg.SERVICE_AUDIENCE }));
 
   app.post("/execute", async (req, res) => {
@@ -37,10 +39,13 @@ export function createApp(d: Deps) {
     res.write(": connected\n\n");
     const send = (ev: unknown) => res.write(`event: request\ndata: ${JSON.stringify(ev)}\n\n`);
     const ping = setInterval(() => res.write(": ping\n\n"), 15_000);
+    const sendWorld = (ev: unknown) => res.write(`event: world\ndata: ${JSON.stringify(ev)}\n\n`);
     d.events.on("request", send);
+    d.events.on("world", sendWorld);
     req.on("close", () => {
       clearInterval(ping);
       d.events.off("request", send);
+      d.events.off("world", sendWorld);
     });
   });
 

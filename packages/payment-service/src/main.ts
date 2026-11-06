@@ -6,6 +6,7 @@ import { createApp } from "./app.js";
 import { sepoliaChain } from "./chain.js";
 import { openDb } from "./db.js";
 import { reconcile, type Deps } from "./execute.js";
+import { migrateWorld, realOidc, worldRouter, type WorldConfig } from "./world.js";
 
 const envFile = resolve(import.meta.dirname, "../../../.env");
 if (existsSync(envFile)) process.loadEnvFile(envFile);
@@ -23,6 +24,17 @@ const tick = () => reconcile(deps).catch((e) => console.error("reconcile:", e));
 await tick();
 setInterval(tick, 15_000);
 
-createApp(deps).listen(cfg.SERVICE_PORT, () => {
+migrateWorld(deps.db);
+let world;
+if (cfg.WORLD_ISSUER && cfg.WORLD_CLIENT_ID && cfg.WORLD_CLIENT_SECRET && cfg.WORLD_REDIRECT_URI) {
+  const wc: WorldConfig = {
+    issuer: cfg.WORLD_ISSUER, clientId: cfg.WORLD_CLIENT_ID, clientSecret: cfg.WORLD_CLIENT_SECRET, redirectUri: cfg.WORLD_REDIRECT_URI,
+    acceptedAcr: cfg.WORLD_ACCEPTED_ACR.split(",").map((s) => s.trim()), pinnedRoot: cfg.PINNED_ROOT_ISSUER, attemptTtlSec: 600,
+  };
+  world = worldRouter({ db: deps.db, cfg: wc, oidc: realOidc(wc), now: () => Math.floor(Date.now() / 1000), events: deps.events });
+  console.log(`World step-up enabled (issuer ${wc.issuer})`);
+} else console.log("World step-up DISABLED (WORLD_* not set): above-threshold requests stay PENDING");
+
+createApp(deps, world).listen(cfg.SERVICE_PORT, () => {
   console.log(`payment-service on :${cfg.SERVICE_PORT} audience=${cfg.SERVICE_AUDIENCE} root=${cfg.PINNED_ROOT_ISSUER}`);
 });

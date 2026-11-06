@@ -19,6 +19,12 @@ export const serviceConfigSchema = z.object({
   WORLD_THRESHOLD_USDC_MINOR: big,
   MAX_REQUEST_TTL_SEC: big.default(300n),
   WORLD_APPROVAL_TTL_SEC: big.default(300n),
+  // World ID Agent Pass (optional: /world routes are disabled when unset)
+  WORLD_ISSUER: z.string().url().optional(),
+  WORLD_CLIENT_ID: z.string().min(1).optional(),
+  WORLD_CLIENT_SECRET: z.string().min(1).optional(),
+  WORLD_REDIRECT_URI: z.string().url().optional(),
+  WORLD_ACCEPTED_ACR: z.string().default("https://world.org/oidc/acr/orb,https://world.org/oidc/acr/orb-face"),
   /** JSON map target-id -> payee address, e.g. {"supplier-A":"0x..."} */
   TARGETS_JSON: z.string().transform((s, ctx) => {
     try {
