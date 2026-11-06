@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { Box, Type } from "@/components/Build";
+import { who } from "@/lib/cast";
 import { agentNames, cfg, repoUrl, rootName, usdcAddress } from "@/lib/server";
 
 export const metadata = { title: "Docs — Mandate" };
@@ -30,11 +31,15 @@ const CHECKS = [
   ["transfer", "Sign, persist the tx hash, then broadcast. Reconcile by rebroadcasting the same raw tx, never re-signing."],
 ];
 
-const H = ({ id, children }: { id: string; children: ReactNode }) => (
-  <h2 id={id} className="scroll-mt-20 border-t border-line pt-10 font-display text-3xl font-extrabold tracking-tight">{children}</h2>
+const H = ({ id, children }: { id: string; children: string }) => (
+  <h2 id={id} className="scroll-mt-20 border-t border-line pt-10 font-display text-3xl font-extrabold tracking-tight">
+    <Type text={children} by={who(id.length)} />
+  </h2>
 );
 const Code = ({ children }: { children: string }) => (
-  <pre className="mt-4 overflow-x-auto border border-line bg-panel p-4 font-mono text-xs leading-relaxed">{children}</pre>
+  <Box by={who(children.length)} className="mt-4" dur={500}>
+    <pre className="overflow-x-auto border border-line bg-panel p-4 font-mono text-xs leading-relaxed">{children}</pre>
+  </Box>
 );
 
 export default function Docs() {
@@ -60,7 +65,7 @@ export default function Docs() {
 
       <article className="max-w-3xl space-y-6 pb-24 leading-relaxed text-ink/90">
         <div>
-          <h1 id="overview" className="font-display text-5xl font-extrabold tracking-tight">Mandate docs</h1>
+          <h1 id="overview" className="font-display text-5xl font-extrabold tracking-tight"><Type text="Mandate docs" by={who(11)} tone="lime" /></h1>
           <p className="mt-4 text-lg text-mute">
             Agents can subcontract work. Authority must not expand. Mandate is a chain of signed, narrowing permits from a human-owned treasury down to the agent that pays, and a payment service that re-checks the whole chain before moving a single cent.
           </p>

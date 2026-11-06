@@ -15,7 +15,7 @@
 }
 
 html { background: var(--color-bg); color: var(--color-ink); }
-body { font-family: var(--font-geist), system-ui, sans-serif; }
+body { font-family: var(--font-geist), system-ui, sans-serif; background-image: radial-gradient(#1a1e25 1px, transparent 1px); background-size: 24px 24px; }
 .presenter { font-size: 125%; }
 ::selection { background: var(--color-lime); color: var(--color-bg); }
 

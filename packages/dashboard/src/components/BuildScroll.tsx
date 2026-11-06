@@ -54,7 +54,7 @@ const STEPS: { from: number; n: string; title: string; body: string }[] = [
 ];
 
 /** Figma-style selection: dashed outline, 8 handles, size label. Parent must be positioned. */
-function Sel({ show, label, tone = "lime" }: { show: boolean; label?: string; tone?: "lime" | "red" }) {
+export function Sel({ show, label, tone = "lime" }: { show: boolean; label?: string; tone?: "lime" | "red" }) {
   if (!show) return null;
   const c = tone === "red" ? "border-red" : "border-lime";
   const h = `absolute h-2 w-2 border ${c} bg-bg`;
@@ -89,8 +89,10 @@ export function BuildScroll({ names }: { names: string[] }) {
     if (reduce || !ref.current || (run === 0 && window.scrollY > 10)) return;
     const el = ref.current;
     const top = el.offsetTop;
-    const dist = el.offsetHeight - window.innerHeight;
-    const DURATION = 26_000;
+    // Hero build in ~11 s, then the rest of the page at the same speed so every section builds as it passes.
+    const speed = (el.offsetHeight - window.innerHeight) / 11_000;
+    const dist = document.documentElement.scrollHeight - window.innerHeight - top;
+    const DURATION = dist / speed;
     let start: number | undefined;
     let id = 0;
     const stop = () => {
@@ -156,6 +158,14 @@ export function BuildScroll({ names }: { names: string[] }) {
       pos: at([[0.45, cardLeft(0), 104], ...[0, 1, 2, 3].map((i): Key => [ARKIV_AT(i) + 0.016, ri(i) - 3, CARD_TOP + CARD_H - 3]), [0.55, 104, 70]], p) },
     { id: "service", label: "payment service", tag: denied ? "bg-red text-bg" : "bg-ink text-bg",
       pos: at([[0.6, 104, VERDICT.t], [0.62, VERDICT.l, VERDICT.t], [0.645, VERDICT.l + VERDICT.w, VERDICT.t + VERDICT.h], [0.7, VERDICT.l + VERDICT.w - 2, VERDICT.t + VERDICT.h], [0.74, 104, 104]], p) },
+    { id: "model", label: "Groq · invoice reader", tag: rogue ? "bg-red text-bg" : "bg-ink text-bg",
+      pos: at([[0.5, -4, 70], [0.54, 14, 72], [0.57, 16, 74], [0.6, -4, 80]], p) },
+    { id: "registry", label: "RevocationRegistry", tag: "bg-ink text-bg",
+      pos: at([[0.6, 50, 104], [0.635, VERDICT.l + 20, VERDICT.t + 8], [0.66, VERDICT.l + 24, VERDICT.t + 10], [0.7, 50, 104]], p) },
+    { id: "usdc", label: "USDC · Sepolia", tag: executed ? "bg-lime text-bg" : "bg-ink text-bg",
+      pos: at([[0.86, 104, 60], [0.9, VERDICT.l + 26, VERDICT.t + 14], [0.94, VERDICT.l + 28, VERDICT.t + 15], [0.98, 104, 60]], p) },
+    { id: "auditor", label: "auditor · mandate verify", tag: "bg-ink text-bg",
+      pos: at([[0.84, cardLeft(0), -4], [0.88, cardLeft(1) + 8, CARD_TOP + 6], [0.91, cardLeft(2) + 8, CARD_TOP + 6], [0.94, cardLeft(3) + 8, CARD_TOP + 6], [0.98, 104, 30]], p) },
   ];
 
   const step = [...STEPS].reverse().find((s) => p >= s.from) ?? STEPS[0]!;
@@ -169,18 +179,10 @@ export function BuildScroll({ names }: { names: string[] }) {
   });
 
   return (
-    <section ref={ref} className={reduce ? "" : "relative h-[600vh]"} aria-label="How Mandate works">
-      <div className={reduce ? "px-4 py-8" : "sticky top-[53px] flex h-[calc(100vh-53px)] flex-col px-4 pb-4 pt-3"}>
+    <section ref={ref} className={reduce ? "" : "relative h-[400vh] overflow-x-clip"} aria-label="How Mandate works">
+      <div className={reduce ? "px-4 py-8" : "sticky top-[53px] flex h-[calc(100vh-53px)] flex-col px-6 pb-4 pt-3"}>
         <div className="mx-auto flex w-full max-w-[1500px] flex-1 flex-col">
-          <div className="flex items-center gap-3 border border-b-0 border-line bg-panel px-3 py-2 font-mono text-[11px] text-mute">
-            <span className="h-2 w-2 rounded-full bg-line" /><span className="h-2 w-2 rounded-full bg-line" /><span className="h-2 w-2 rounded-full bg-line" />
-            <span className="ml-2">mandate · illustration of the live flow</span>
-            <span className="ml-auto">{cursors.filter((c) => c.pos[0] > -2 && c.pos[0] < 102 && c.pos[1] < 102 && c.pos[1] > -2).length} cursors live</span>
-            <span className="tabular-nums">{String(Math.round(p * 100)).padStart(3, "0")}%</span>
-          </div>
-
-          <div ref={canvas} className="relative min-h-[520px] flex-1 overflow-hidden border border-line bg-bg"
-            style={{ backgroundImage: "radial-gradient(#1a1e25 1px, transparent 1px)", backgroundSize: "24px 24px" }}>
+          <div ref={canvas} className="relative min-h-[520px] flex-1">
             {/* Headline */}
             <h1 className="absolute left-[3%] top-[6%] font-display text-[clamp(30px,5vw,80px)] font-extrabold leading-[0.98] tracking-tight">
               <span>{l1}{typingOwner && l2 === "" && caretEl}</span>
@@ -266,7 +268,7 @@ export function BuildScroll({ names }: { names: string[] }) {
             {/* Cursors */}
             {!reduce && cursors.map((c) => (
               <div key={c.id} className="pointer-events-none absolute z-10" aria-hidden
-                style={{ left: `${c.pos[0]}%`, top: `${c.pos[1]}%`, transform: `translateX(${c.id === "procure" ? shake * 6 : 0}px)` }}>
+                style={{ left: `${c.pos[0]}%`, top: `${c.pos[1]}%`, opacity: c.pos[0] > -1 && c.pos[0] < 101 && c.pos[1] > -1 && c.pos[1] < 101 ? 1 : 0, transform: `translateX(${c.id === "procure" ? shake * 6 : 0}px)` }}>
                 <svg width="16" height="20" viewBox="0 0 16 20"><path d="M1 1 L1 16 L5 12.5 L8 19 L10.5 18 L7.5 11.5 L13 11.5 Z" fill={c.tag.includes("bg-red") ? "#ff4d4d" : c.tag.includes("bg-lime") ? "#c6ff3d" : "#e6e8eb"} stroke="#0b0d10" strokeWidth="1.2" /></svg>
                 <span className={`ml-3 whitespace-nowrap px-1.5 py-0.5 font-mono text-[10px] ${c.tag}`}>{c.label}</span>
               </div>
@@ -274,8 +276,9 @@ export function BuildScroll({ names }: { names: string[] }) {
           </div>
 
           {/* Narration */}
-          <div className="flex items-baseline gap-4 border border-t-0 border-line bg-panel px-4 py-3" aria-live="polite">
+          <div className="flex items-baseline gap-4 border-t border-line py-3" aria-live="polite">
             <span className="font-mono text-xs text-lime">{step.n}</span>
+            <span className="font-mono text-[10px] uppercase text-mute">illustration</span>
             <span className="font-display text-lg font-bold">{step.title}</span>
             <span className="hidden text-sm text-mute md:inline">{step.body}</span>
             {!reduce && (
