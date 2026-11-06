@@ -7,7 +7,7 @@ export function Nav() {
         <Link href="/" className="font-display text-lg font-bold tracking-tight">
           MANDATE<span className="text-lime">.</span>
         </Link>
-        <Link href="/" className="text-sm text-mute hover:text-ink">Stage</Link>
+        <Link href="/stage" className="text-sm text-mute hover:text-ink">Stage</Link>
         <Link href="/explorer" className="text-sm text-mute hover:text-ink">Registry</Link>
         <span className="ml-auto font-mono text-xs text-mute">Sepolia · Arkiv Rabdi · World sandbox · testnets only</span>
       </nav>
