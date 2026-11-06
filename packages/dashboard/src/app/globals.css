@@ -28,3 +28,5 @@ body { font-family: var(--font-geist), system-ui, sans-serif; }
 
 @keyframes blink { 50% { opacity: 0; } }
 .caret { display: inline-block; width: 0.08em; height: 0.9em; margin-left: 0.04em; background: var(--color-lime); vertical-align: -0.08em; animation: blink 1s steps(1) infinite; }
+@keyframes pulse-w { 50% { opacity: 0.55; } }
+.wire-pulse { animation: pulse-w 1.6s ease-in-out infinite; }

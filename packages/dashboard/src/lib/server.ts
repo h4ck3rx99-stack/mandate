@@ -14,6 +14,8 @@ export const cfg = () => ({
   pinnedRoot: need("PINNED_ROOT_ISSUER") as Address,
 });
 export const rootName = () => need("ENS_ROOT_NAME");
+export const repoUrl = () => need("REPO_URL");
+export const usdcAddress = () => need("USDC_ADDRESS");
 export const agentNames = () => {
   const t = `treasury.${rootName()}`;
   const ops = `ops.${t}`, procure = `procure.${ops}`;
