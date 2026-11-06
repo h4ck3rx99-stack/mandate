@@ -23,3 +23,5 @@ time | files | AI-generated | human review needed
 22:44 | packages/arkiv/src/receipts.ts packages/payment-service/* packages/agents/src/{runner,upstream}.ts packages/cli | all | receipt spam rule (only signed chains), runner design
 22:47 | packages/dashboard/* | all UI code | layout, copy, visual design per human decisions
 22:49 | packages/dashboard/src/app/{explorer,agent} tsconfig.base.json imports | all | none
+23:43 | packages/dashboard/src/app/layout.tsx | fix | none
+00:56 | dashboard landing BuildScroll.tsx, stage route move | AI-generated | human review of motion/design
