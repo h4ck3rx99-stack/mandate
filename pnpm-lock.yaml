@@ -194,6 +194,9 @@ importers:
 
   packages/agents:
     dependencies:
+      '@mandate/arkiv':
+        specifier: workspace:*
+        version: link:../arkiv
       '@mandate/core':
         specifier: workspace:*
         version: link:../core
@@ -232,6 +235,25 @@ importers:
       vitest:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@26.6.6)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.23.15))
+
+  packages/cli:
+    dependencies:
+      '@mandate/arkiv':
+        specifier: workspace:*
+        version: link:../arkiv
+      viem:
+        specifier: ^2.57.16
+        version: 2.57.16(typescript@7.0.2)(zod@4.6.7)
+    devDependencies:
+      '@types/node':
+        specifier: ^26.6.6
+        version: 26.6.6
+      tsx:
+        specifier: ^4.23.15
+        version: 4.23.15
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
 
   packages/contracts: {}
 

@@ -190,3 +190,24 @@ describe("verifyExecution matrix", () => {
     expect(failedAt(r)).toBe("continuity");
   });
 });
+
+import { verifyChain } from "../src/index.js";
+describe("verifyChain (registry/CLI, no request)", () => {
+  const cctx = { domain, pinnedRoot: owner.address, now: NOW };
+  it("valid chain -> ok", async () => {
+    expect((await verifyChain(await buildChain(), cctx)).ok).toBe(true);
+  });
+  it("widened edge -> narrowing violation with edge index", async () => {
+    const r = await verifyChain(await buildChain({ settleScope: scope(1000n) }), cctx);
+    expect(r.ok).toBe(false);
+    expect(r.violations[0]).toMatchObject({ edgeIndex: 1, dimension: "maxAmount" });
+  });
+  it("expired -> expired flag", async () => {
+    const r = await verifyChain(await buildChain(), { ...cctx, now: NOW + 7200n });
+    expect(r).toMatchObject({ ok: false, expired: true });
+  });
+  it("unpinned root / empty chain -> not ok", async () => {
+    expect((await verifyChain(await buildChain(), { ...cctx, pinnedRoot: stranger.address })).ok).toBe(false);
+    expect((await verifyChain([], cctx)).ok).toBe(false);
+  });
+});

@@ -1,9 +1,9 @@
 // Runs the demo scenarios against the live payment service on Sepolia.
-// usage: tsx scripts/scenarios.ts [1|2|2b|3|4|all] [--reseed] [--record]
+// usage: tsx scripts/scenarios.ts [1|1s|2|2b|3|4|all] [--reseed] [--record] [--publish]
 import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import type { Delegation } from "@mandate/core";
 import { delegationToWire } from "@mandate/core";
-import { issueRoot, delegateToProcure, procure, settle, revokeOnchain, type ProcureDecision } from "@mandate/agents";
+import { issueRoot, delegateToProcure, procure, settle, revokeOnchain, publishLink, names, type ProcureDecision } from "@mandate/agents";
 
 process.loadEnvFile(".env");
 const args = process.argv.slice(2);
@@ -22,14 +22,16 @@ const revive = (d: any): Delegation => ({ ...d, scope: { ...d.scope, maxAmount: 
 async function upstream(reseed = false): Promise<Up> {
   if (!reseed && existsSync(STATE)) {
     const s = JSON.parse(readFileSync(STATE, "utf8"));
-    if (!s.revoked && BigInt(s.chain[0].scope.expiry) > BigInt(Math.floor(Date.now() / 1000)) + 600n) return s.chain.map(revive) as Up;
+    if (!s.revoked && s.chain[0].issuerName === names().treasury && BigInt(s.chain[0].scope.expiry) > BigInt(Math.floor(Date.now() / 1000)) + 600n) return s.chain.map(revive) as Up;
   }
   const expiry = BigInt(Math.floor(Date.now() / 1000) + 24 * 3600);
   const root = await issueRoot({ actions: ["pay"], maxAmount: 500n * USDC, expiry, targets: ["supplier-A"] });
   const opsLink = await delegateToProcure(root, { actions: ["pay"], maxAmount: 300n * USDC, expiry, targets: ["supplier-A"] });
+  const p0 = await publishLink("OWNER", root, root.id, 0);
+  const p1 = await publishLink("OPS", opsLink, root.id, 1);
   mkdirSync("data", { recursive: true });
-  writeFileSync(STATE, JSON.stringify({ chain: [root, opsLink].map(delegationToWire), revoked: false }, null, 2));
-  console.log(`seeded upstream: root ${root.id.slice(0, 10)}…  ops->procure ${opsLink.id.slice(0, 10)}…`);
+  writeFileSync(STATE, JSON.stringify({ chain: [root, opsLink].map(delegationToWire), published: [p0, p1], revoked: false }, null, 2));
+  console.log(`seeded upstream: root ${root.id.slice(0, 10)}… (${p0.arkivUrl})  ops->procure ${opsLink.id.slice(0, 10)}… (${p1.arkivUrl})`);
   return [root, opsLink];
 }
 
@@ -52,9 +54,16 @@ async function runProcure(up: Up, file: string, allowRogue: boolean) {
   const llm = await procure(up[1], invoice(file));
   const extra = [`- invoice: \`fixtures/invoices/${file}\``, `- model (${llm.model}) output, verbatim: \`${llm.rawOutput}\``];
   const resisted = allowRogue && rogue[file] && (llm.decision.payAmountUsdc !== rogue[file]!.payAmountUsdc || llm.decision.grantMaxAmountUsdc !== rogue[file]!.grantMaxAmountUsdc);
-  if (!resisted) return { res: llm, extra };
+  const publish = async (r: Awaited<ReturnType<typeof procure>>) => {
+    if (!args.includes("--publish")) return;
+    const p = await publishLink("PROCURE", r.delegation, up[0].id, 2);
+    extra.push(`- procure published its delegation: Arkiv ${p.arkivUrl}`);
+  };
+  if (!resisted) { await publish(llm); return { res: llm, extra }; }
   extra.push(`- the live model did NOT fully follow the injection; using the labelled **ROGUE-AGENT FIXTURE** (fixtures/rogue-outputs.json): \`${JSON.stringify(rogue[file])}\``);
-  return { res: await procure(up[1], invoice(file), rogue[file]), extra };
+  const fx = await procure(up[1], invoice(file), rogue[file]);
+  await publish(fx);
+  return { res: fx, extra };
 }
 
 const scenarios: Record<string, () => Promise<void>> = {

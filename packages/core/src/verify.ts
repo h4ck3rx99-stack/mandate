@@ -1,7 +1,7 @@
 import { isAddressEqual, recoverTypedDataAddress, type Address, type Hex } from "viem";
 import { EIP712_TYPES, ROOT_PARENT, hashDelegation, hashRequest, type MandateDomain } from "./eip712.js";
 import { narrowsChain } from "./narrows.js";
-import { executeBodySchema } from "./schema.js";
+import { MAX_CHAIN_DEPTH, executeBodySchema } from "./schema.js";
 import type { Delegation, ExecutionRequest, Violation } from "./types.js";
 
 export interface Check {
@@ -81,67 +81,7 @@ export async function verifyExecution(raw: unknown, ctx: VerifyContext): Promise
   const root = chain[0]!;
   const leaf = chain[chain.length - 1]!;
 
-  // 2 root pinned
-  if (
-    !(await step("root", () => {
-      if (root.parent !== ROOT_PARENT) return [false, "The chain does not start at a root mandate.", `first link parent ${root.parent}`];
-      if (!isAddressEqual(root.issuer, ctx.pinnedRoot))
-        return [false, "The chain does not trace back to the treasury owner this service trusts.", `root issuer ${root.issuer} != pinned ${ctx.pinnedRoot}`];
-      return [true, "The chain starts at the trusted treasury owner.", root.issuer];
-    }))
-  )
-    return res;
-
-  // 3 ids + signatures
-  if (
-    !(await step("signatures", async () => {
-      for (const [i, d] of chain.entries()) {
-        const { id, sig, ...unsigned } = d;
-        const recomputed = hashDelegation(ctx.domain, unsigned);
-        if (recomputed !== id) return [false, `Link ${i} was altered after it was signed.`, `id ${id} != recomputed ${recomputed}`];
-        const signer = await recoverTypedDataAddress({ domain: ctx.domain, types: EIP712_TYPES, primaryType: "Delegation", message: unsigned, signature: sig });
-        if (!isAddressEqual(signer, d.issuer)) return [false, `Link ${i} was not signed by its issuer.`, `signer ${signer} != issuer ${d.issuer}`];
-      }
-      return [true, "Every mandate in the chain is signed by its issuer.", `${chain.length} signatures`];
-    }))
-  )
-    return res;
-
-  // 4 continuity, no repeats/cycles
-  if (
-    !(await step("continuity", () => {
-      const ids = new Set<string>();
-      const principals = new Set<string>([root.issuer.toLowerCase()]);
-      for (const [i, d] of chain.entries()) {
-        if (ids.has(d.id)) return [false, "The chain repeats a mandate.", `duplicate id at link ${i}`];
-        ids.add(d.id);
-        const subj = d.subject.toLowerCase();
-        if (principals.has(subj)) return [false, "The chain loops back to an earlier agent.", `subject ${d.subject} repeats at link ${i}`];
-        principals.add(subj);
-        if (i === 0) continue;
-        const p = chain[i - 1]!;
-        if (d.parent !== p.id) return [false, `Link ${i} does not point at the mandate before it.`, `parent ${d.parent} != ${p.id}`];
-        if (!isAddressEqual(d.issuer, p.subject)) return [false, `Link ${i} was issued by someone who did not hold the parent mandate.`, `issuer ${d.issuer} != parent subject ${p.subject}`];
-      }
-      return [true, "Each agent received its mandate from the one above it.", chain.map((d) => d.subjectName).join(" -> ")];
-    }))
-  )
-    return res;
-
-  // 5 narrowing on every edge
-  if (
-    !(await step("narrowing", () => {
-      const v = narrowsChain(chain.map((d) => d.scope));
-      res.violations = v;
-      if (v.length > 0) {
-        const first = v[0]!;
-        const who = chain[first.edgeIndex! + 1]!.issuerName;
-        return [false, `${who} tried to grant more authority than it holds.`, v.map((x) => `edge ${x.edgeIndex} ${x.dimension}: ${x.parentValue} -> ${x.childValue}`).join("; ")];
-      }
-      return [true, "No agent granted more than it was given.", `${chain.length - 1} edges checked`];
-    }))
-  )
-    return res;
+  if (!(await chainSteps(chain, ctx, step, res))) return res;
 
   // 6 time
   if (
@@ -200,5 +140,111 @@ export async function verifyExecution(raw: unknown, ctx: VerifyContext): Promise
     return res;
 
   res.ok = true;
+  return res;
+}
+
+type Step = (name: string, fn: () => Promise<[boolean, string, string]> | [boolean, string, string]) => Promise<boolean>;
+
+/** Steps 2-5 (root pinned, ids + signatures, continuity, narrowing). Shared by request and chain-only verification. */
+async function chainSteps(chain: Delegation[], ctx: Pick<VerifyContext, "domain" | "pinnedRoot">, step: Step, res: { violations: Violation[] }): Promise<boolean> {
+  const root = chain[0]!;
+  // 2 root pinned
+  if (
+    !(await step("root", () => {
+      if (root.parent !== ROOT_PARENT) return [false, "The chain does not start at a root mandate.", `first link parent ${root.parent}`];
+      if (!isAddressEqual(root.issuer, ctx.pinnedRoot))
+        return [false, "The chain does not trace back to the treasury owner this service trusts.", `root issuer ${root.issuer} != pinned ${ctx.pinnedRoot}`];
+      return [true, "The chain starts at the trusted treasury owner.", root.issuer];
+    }))
+  )
+    return false;
+
+  // 3 ids + signatures
+  if (
+    !(await step("signatures", async () => {
+      for (const [i, d] of chain.entries()) {
+        const { id, sig, ...unsigned } = d;
+        const recomputed = hashDelegation(ctx.domain, unsigned);
+        if (recomputed !== id) return [false, `Link ${i} was altered after it was signed.`, `id ${id} != recomputed ${recomputed}`];
+        const signer = await recoverTypedDataAddress({ domain: ctx.domain, types: EIP712_TYPES, primaryType: "Delegation", message: unsigned, signature: sig });
+        if (!isAddressEqual(signer, d.issuer)) return [false, `Link ${i} was not signed by its issuer.`, `signer ${signer} != issuer ${d.issuer}`];
+      }
+      return [true, "Every mandate in the chain is signed by its issuer.", `${chain.length} signatures`];
+    }))
+  )
+    return false;
+
+  // 4 continuity, no repeats/cycles
+  if (
+    !(await step("continuity", () => {
+      const ids = new Set<string>();
+      const principals = new Set<string>([root.issuer.toLowerCase()]);
+      for (const [i, d] of chain.entries()) {
+        if (ids.has(d.id)) return [false, "The chain repeats a mandate.", `duplicate id at link ${i}`];
+        ids.add(d.id);
+        const subj = d.subject.toLowerCase();
+        if (principals.has(subj)) return [false, "The chain loops back to an earlier agent.", `subject ${d.subject} repeats at link ${i}`];
+        principals.add(subj);
+        if (i === 0) continue;
+        const p = chain[i - 1]!;
+        if (d.parent !== p.id) return [false, `Link ${i} does not point at the mandate before it.`, `parent ${d.parent} != ${p.id}`];
+        if (!isAddressEqual(d.issuer, p.subject)) return [false, `Link ${i} was issued by someone who did not hold the parent mandate.`, `issuer ${d.issuer} != parent subject ${p.subject}`];
+      }
+      return [true, "Each agent received its mandate from the one above it.", chain.map((d) => d.subjectName).join(" -> ")];
+    }))
+  )
+    return false;
+
+  // 5 narrowing on every edge
+  if (
+    !(await step("narrowing", () => {
+      const v = narrowsChain(chain.map((d) => d.scope));
+      res.violations = v;
+      if (v.length > 0) {
+        const first = v[0]!;
+        const who = chain[first.edgeIndex! + 1]!.issuerName;
+        return [false, `${who} tried to grant more authority than it holds.`, v.map((x) => `edge ${x.edgeIndex} ${x.dimension}: ${x.parentValue} -> ${x.childValue}`).join("; ")];
+      }
+      return [true, "No agent granted more than it was given.", `${chain.length - 1} edges checked`];
+    }))
+  )
+    return false;
+
+  return true;
+}
+
+export interface ChainVerifyResult {
+  ok: boolean;
+  checks: Check[];
+  violations: Violation[];
+  expired: boolean;
+}
+
+/** Verify a delegation chain without a request (registry / CLI): steps 2-5 + expiry. Fails closed. */
+export async function verifyChain(chain: Delegation[], ctx: Pick<VerifyContext, "domain" | "pinnedRoot" | "now">): Promise<ChainVerifyResult> {
+  const checks: Check[] = [];
+  const res: ChainVerifyResult = { ok: false, checks, violations: [], expired: false };
+  const step: Step = async (name, fn) => {
+    try {
+      const [ok, plainEnglish, detail] = await fn();
+      checks.push({ name, ok, plainEnglish, detail });
+      return ok;
+    } catch (e) {
+      checks.push({ name, ok: false, plainEnglish: "This check could not complete.", detail: String(e) });
+      return false;
+    }
+  };
+  if (chain.length === 0 || chain.length > MAX_CHAIN_DEPTH) {
+    checks.push({ name: "schema", ok: false, plainEnglish: "The chain is empty or too deep.", detail: `depth ${chain.length}` });
+    return res;
+  }
+  if (!(await chainSteps(chain, ctx, step, res))) return res;
+  const ok = await step("expiry", () => {
+    const i = chain.findIndex((d) => d.scope.expiry <= ctx.now);
+    if (i >= 0) return [false, `The mandate for ${chain[i]!.subjectName} has expired.`, `expiry ${chain[i]!.scope.expiry} <= now ${ctx.now}`];
+    return [true, "All mandates are current.", `now ${ctx.now}`];
+  });
+  res.expired = !ok;
+  res.ok = ok;
   return res;
 }

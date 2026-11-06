@@ -1,0 +1,23 @@
+{
+  "name": "@mandate/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "mandate": "./src/main.ts"
+  },
+  "scripts": {
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -p .",
+    "mandate": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@mandate/arkiv": "workspace:*",
+    "viem": "^2.57.16"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
