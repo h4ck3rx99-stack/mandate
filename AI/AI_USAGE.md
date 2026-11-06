@@ -12,3 +12,4 @@ time | files | AI-generated | human review needed
 20:31 | packages/payment-service/* packages/core/src/config.ts .env.example | all | PENDING semantics (missing approval doesn't burn nonce), tx lock, reconcile
 20:36 | packages/agents/* scripts/scenarios.ts fixtures/* docs/evidence.md | all code; invoice copy AI-written | invoice/injection copy, procure system prompt
 20:38 | scripts/recycle-usdc.ts scripts/fund-eth.ts | all | none
+21:49 | scripts/probes/* docs/versions.md | all | none

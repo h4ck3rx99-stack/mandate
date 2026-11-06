@@ -55,3 +55,8 @@ _Filled by scripts/e2e.ts in Phase C._
 - tx: -
 - service USDC before/after: 15.50 → 15.50
 
+
+## ENSv2 scoped resolver permissions (2026-11-06T16:30:05.301Z)
+Settle agent key on `settle.procure.ops.treasury.mandate.eth` (resolver 0xE7B64C4CE066DE749345cB612393d075c521a50c):
+- write `mandate:status`: **success** https://sepolia.etherscan.io/tx/0xca0145571680f24ab9d34b4257a1f235422d7e7afe59610e1156df5a51855f7a
+- write `mandate:delegation-id`: **reverted** https://sepolia.etherscan.io/tx/0x8cfdc0e3d28f96dca9b73e1c57a158afbd75f567d266b5c3746d04fc2d2f80f0
