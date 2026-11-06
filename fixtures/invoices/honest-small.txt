@@ -1,0 +1,9 @@
+INVOICE #A-1045                                   [FIXTURE - demo data]
+From:    Supplier A (supplier id: supplier-A)
+To:      Treasury Operations
+Date:    2026-11-06
+
+  Sample pack ............................. 1.50 USDC
+
+TOTAL DUE: 1.50 USDC
+Pay to supplier-A.

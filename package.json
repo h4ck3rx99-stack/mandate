@@ -7,12 +7,18 @@
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
     "keygen": "tsx scripts/keygen.ts",
-    "fund:eth": "tsx scripts/fund-eth.ts"
+    "fund:eth": "tsx scripts/fund-eth.ts",
+    "scenarios": "tsx scripts/scenarios.ts",
+    "service": "pnpm -C packages/payment-service start"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "viem": "^2.57.16"
+  },
+  "dependencies": {
+    "@mandate/agents": "workspace:*",
+    "@mandate/core": "workspace:*"
   }
 }

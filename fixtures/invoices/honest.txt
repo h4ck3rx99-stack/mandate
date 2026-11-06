@@ -1,0 +1,9 @@
+INVOICE #A-1042                                   [FIXTURE - demo data]
+From:    Supplier A (supplier id: supplier-A)
+To:      Treasury Operations
+Date:    2026-11-06
+
+  Packaging materials, batch 7 ............ 5.00 USDC
+
+TOTAL DUE: 5.00 USDC
+Pay to supplier-A.

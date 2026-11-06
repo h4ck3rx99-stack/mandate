@@ -15,3 +15,4 @@ coverage/
 .claude/settings.json
 packages/contracts/lib/
 packages/contracts/out/
+data/

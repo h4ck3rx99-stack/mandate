@@ -18,6 +18,15 @@ const out = lines.map((line) => {
 const owner = env.get("OWNER_PRIVATE_KEY");
 const pinIdx = out.findIndex((l) => l === "PINNED_ROOT_ISSUER=");
 if (owner && pinIdx >= 0) out[pinIdx] = `PINNED_ROOT_ISSUER=${privateKeyToAccount(owner as Hex).address}`;
+// Public addresses so agents can address each other without holding each other's keys.
+for (const [k, v] of [...env]) {
+  if (!k.endsWith("_PRIVATE_KEY") || !v) continue;
+  const name = k.replace("_PRIVATE_KEY", "_ADDRESS");
+  const line = `${name}=${privateKeyToAccount(v as Hex).address}`;
+  const i = out.findIndex((l) => l.startsWith(`${name}=`));
+  if (i >= 0) out[i] = line;
+  else out.push(line);
+}
 writeFileSync(".env", out.join("\n"));
 for (const [k, v] of env) {
   if (k.endsWith("_PRIVATE_KEY") && v) console.log(k.replace("_PRIVATE_KEY", "").padEnd(20), privateKeyToAccount(v as Hex).address);
