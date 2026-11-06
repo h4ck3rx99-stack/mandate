@@ -13,3 +13,4 @@ time | files | AI-generated | human review needed
 20:36 | packages/agents/* scripts/scenarios.ts fixtures/* docs/evidence.md | all code; invoice copy AI-written | invoice/injection copy, procure system prompt
 20:38 | scripts/recycle-usdc.ts scripts/fund-eth.ts | all | none
 21:49 | scripts/probes/* docs/versions.md | all | none
+22:00 | scripts/ens-*.mts packages/agents/src/ens.ts docs/ens.md docs/evidence.md | all | per-name resolver design; issuer-writes-delegation-records rule

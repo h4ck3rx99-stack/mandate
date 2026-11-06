@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Mandate · World approval</title>
+<meta name="referrer" content="no-referrer">
+<style>body{background:#0B0D10;color:#E6E8EB;font:16px system-ui,sans-serif;display:grid;place-items:center;height:100vh;margin:0}</style>
+</head><body><p id="m">Returning to the Mandate payment service…</p>
+<script>
+// Fixed-target bounce: World requires an HTTPS callback; this forwards ?code&state (or ?error) to the
+// payment service, which redeems the code with its client secret + PKCE verifier. No open redirect.
+var SERVICE = "http://localhost:8787"; // updated to the deployed service URL in Phase G
+location.replace(SERVICE + "/world/callback" + location.search);
+</script></body></html>
