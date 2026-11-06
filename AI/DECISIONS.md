@@ -9,3 +9,6 @@
 | 20:14 | Procure agent LLM changed Anthropic -> Google Gemini free tier (no Anthropic credits) | human |
 | 20:24 | Procure LLM changed Gemini -> Groq (Gemini free tier 403 on account); model openai/gpt-oss-120b chosen by AI after tool-call probe | human (provider), AI (model) |
 | 21:49 | ENS root name: mandate.eth (registered by human on Sepolia ENSv2 to OWNER, 1 year) | human |
+| 22:33 | Dashboard hero: tagline "Agents can subcontract work. Authority must not expand." as headline + pitch opener as sub-line | human |
+| 22:33 | Scenario 2 split into two beats: 2a real model output (inflated to 300, within limits) -> needs World approval; 2b labelled rogue fixture asks 450 -> DENIED | human |
+| 22:33 | Motion: restrained; hold tripped breaker ~1.5 s before showing ASKED 450 / ALLOWED 150; no screen flash; respect prefers-reduced-motion | human |
