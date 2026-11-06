@@ -15,7 +15,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${bricolage.variable} ${geist.variable} ${geistMono.variable} antialiased`}>
-      <body className="min-h-screen bg-bg text-ink">
+      {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla) inject attributes on <body> */}
+      <body className="min-h-screen bg-bg text-ink" suppressHydrationWarning>
         <Nav />
         {children}
       </body>
