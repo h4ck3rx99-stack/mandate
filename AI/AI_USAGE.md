@@ -15,3 +15,4 @@ time | files | AI-generated | human review needed
 21:49 | scripts/probes/* docs/versions.md | all | none
 22:00 | scripts/ens-*.mts packages/agents/src/ens.ts docs/ens.md docs/evidence.md | all | per-name resolver design; issuer-writes-delegation-records rule
 22:03 | packages/payment-service/src/world.ts test/world.test.ts packages/core/src/config.ts docs/world/callback | all | link-by-wallet-signature design, GitHub Pages callback bounce
+22:04 | packages/arkiv/* | all | schema field choices (UNVERIFIED until probe)

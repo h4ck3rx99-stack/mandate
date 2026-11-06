@@ -19,7 +19,9 @@
     "viem": "^2.57.16"
   },
   "dependencies": {
+    "@arkiv-network/sdk": "^1.0.1",
     "@mandate/agents": "workspace:*",
+    "@mandate/arkiv": "workspace:*",
     "@mandate/core": "workspace:*"
   }
 }

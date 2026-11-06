@@ -97,3 +97,9 @@ USDC `decimals()` was probed on Sepolia on 2026-11-06 (~20:05 IST) and returned 
 - `mandate.eth`: ETHRegistry `findOwner("mandate")` returns OWNER `0x1d8a886CB0df503e7b21805048395ef7Fc98b586`. Resolver `0x416a24F94AaEaf21BbaE285882a9Dfd56Fda7c25` (set by the app); no subregistry yet; expires 1825539456 (Nov 2027).
 - MockUSDC on Sepolia has a public `mint(address,uint256)` (confirmed by probe); OWNER minted 50 to pay the registration fee.
 - PermissionedRegistry role values come from https://docs.ens.domains/ensv2/permissioned-registry: REGISTRAR 1<<0, REGISTER_RESERVED 1<<4, SET_PARENT 1<<8, UNREGISTER 1<<12, RENEW 1<<16, SET_SUBREGISTRY 1<<20, SET_RESOLVER 1<<24, CAN_TRANSFER_ADMIN (1<<28)<<128, SET_URI 1<<36, UPGRADE 1<<124. The admin form of each role is role<<128.
+
+## Arkiv probe results (`scripts/probes/arkiv-roundtrip.mts`, 2026-11-06 ~22:15 IST)
+- `rabdi({ accessKey })` resolves to chain id **7794095** ("Rabdi").
+- `createEntity(Schema, values, { expiration: ExpirationTime.atDate(date) })` works. `addr` columns need `addr(...)`-wrapped values (a bare string throws SchemaMismatchError). Max entity lifetime is about 182 days.
+- `select({...}).from(Schema).where(eq("id", x)).fetch()` returns `{ entities }`, and `$owner` is the issuer wallet. Write latency is about 7.5 s.
+- The faucet funds one wallet per hour, so OWNER was faucet-funded and topped up OPS/PROCURE (`scripts/fund-arkiv.mts`).
