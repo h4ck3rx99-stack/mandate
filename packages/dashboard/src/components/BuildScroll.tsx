@@ -84,9 +84,12 @@ export function BuildScroll({ names }: { names: string[] }) {
   useMotionValueEvent(scrollYProgress, "change", setRaw);
   const p = reduce ? 1 : raw;
 
-  // Autoplay: scroll through the build on open; any user input hands control back.
+  // Autoplay by default on every load: start from the top (no browser scroll restore); any user input hands control back.
+  // reduce is null until the media query resolves; wait for it so the run isn't started and then cancelled.
   useEffect(() => {
-    if (reduce || !ref.current || (run === 0 && window.scrollY > 10)) return;
+    if (reduce !== false || !ref.current) return;
+    history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
     const el = ref.current;
     const top = el.offsetTop;
     // Hero build in ~11 s, then the rest of the page at the same speed so every section builds as it passes.

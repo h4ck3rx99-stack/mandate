@@ -77,11 +77,12 @@ export async function execute(raw: unknown, d: Deps): Promise<ExecuteResponse> {
       balanceAfter: await safeBalance(chain), ...extra,
     };
     const json = JSON.stringify(res);
-    if (rowId !== undefined) db.prepare("UPDATE requests SET decision = ?, response = ? WHERE id = ?").run(decision, json, rowId);
+    let id = rowId;
+    if (id !== undefined) db.prepare("UPDATE requests SET decision = ?, response = ? WHERE id = ?").run(decision, json, id);
     else
-      db.prepare("INSERT INTO requests (created_at, request_hash, leaf_subject, amount, target, decision, response) VALUES (?, ?, ?, ?, ?, ?, ?)").run(
+      id = Number(db.prepare("INSERT INTO requests (created_at, request_hash, leaf_subject, amount, target, decision, response) VALUES (?, ?, ?, ?, ?, ?, ?)").run(
         Number(now), v.requestHash ?? null, v.chain?.at(-1)?.subject ?? null, v.request?.amount.toString() ?? null, v.request?.target ?? null, decision, json,
-      );
+      ).lastInsertRowid);
     d.events.emit("request", res);
     // Public receipt only for final verdicts on requests whose chain signatures verified (no cost for unsigned spam).
     const sigOk = checks.some((c) => c.name === "signatures" && c.ok);
@@ -94,7 +95,7 @@ export async function execute(raw: unknown, d: Deps): Promise<ExecuteResponse> {
       };
       d.publishReceipt(job).then(
         (key) => {
-          db.prepare("UPDATE requests SET arkiv_key = ? WHERE request_hash = ? AND decision = ?").run(key, v.requestHash!, decision);
+          db.prepare("UPDATE requests SET arkiv_key = ? WHERE id = ?").run(key, id); // by row: a replay shares the request hash
           d.events.emit("receipt", { requestHash: v.requestHash, decision, entityKey: key });
         },
         (e) => console.error("receipt publish failed:", String(e).slice(0, 200)),

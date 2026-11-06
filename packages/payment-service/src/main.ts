@@ -3,6 +3,8 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { loadServiceConfig } from "@mandate/core";
 import { writeReceipt } from "@mandate/arkiv";
+import { serial } from "./serial";
+import type { ReceiptJob } from "./execute";
 import { privateKeyToAccount } from "viem/accounts";
 import { createApp } from "./app";
 import { sepoliaChain } from "./chain";
@@ -21,7 +23,7 @@ const deps: Deps = {
   now: () => BigInt(Math.floor(Date.now() / 1000)),
   events: new EventEmitter().setMaxListeners(100),
   // Decision receipts on Arkiv, owned by the service wallet (enabled when ARKIV_ACCESS_KEY is set).
-  publishReceipt: process.env.ARKIV_ACCESS_KEY ? (job) => writeReceipt(privateKeyToAccount(cfg.SERVICE_PRIVATE_KEY), job) : undefined,
+  publishReceipt: process.env.ARKIV_ACCESS_KEY ? serial((job: ReceiptJob) => writeReceipt(privateKeyToAccount(cfg.SERVICE_PRIVATE_KEY), job)) : undefined,
 };
 
 const tick = () => reconcile(deps).catch((e) => console.error("reconcile:", e));
