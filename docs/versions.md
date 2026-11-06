@@ -19,7 +19,7 @@ Checked 2026-11-06 19:20–19:40 IST. npm versions came from `npm view <pkg> ver
 | vitest | 5.1.0 | tests |
 | express | 5.3.0 | payment-service, sdk |
 | better-sqlite3 | 13.0.3 | payment-service nonces/requests |
-| @anthropic-ai/sdk | 1.6.0 | procure agent (Anthropic chosen, see AI/DECISIONS.md) |
+| @google/genai | 3.0.0 | procure agent (Gemini free tier, see AI/DECISIONS.md); model id picked by a models.list probe |
 | next | 16.4.5 | dashboard |
 | tailwindcss | 4.3.4 | dashboard |
 | tsx | 4.23.15 | scripts |
@@ -91,4 +91,4 @@ Fallback (IDKit, $2.5k): `@worldcoin/idkit` 4.6.0, simulator https://simulator.w
 |---|---|---|
 | RevocationRegistry | [0x7ebd3ef7f01892d216f590e4da45d2c681e664b8](https://sepolia.etherscan.io/address/0x7ebd3ef7f01892d216f590e4da45d2c681e664b8) | [0x0dc513d1…256d](https://sepolia.etherscan.io/tx/0x0dc513d1ff2e9e4960a3ac4ddfe65632957affe82eb715b518e774f663d8256d) (block 12076167) |
 
-USDC `decimals()` was probed on Sepolia at 19:4x IST and returned **6** (verified).
+USDC `decimals()` was probed on Sepolia on 2026-11-06 (~20:05 IST) and returned **6** (verified).

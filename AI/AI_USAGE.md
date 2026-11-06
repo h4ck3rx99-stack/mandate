@@ -6,3 +6,4 @@ time | files | AI-generated | human review needed
 19:25 | docs/versions.md docs/manual-tasks.md .env.example packages/core/* | all (docs-sourced facts in versions.md) | narrows semantics, schema bounds
 19:28 | packages/core/src/{eip712,verify}.ts test/verify.test.ts | all | check order, world-approval binding (ref unsigned, hash-bound), cycle rule
 19:29 | packages/contracts/* scripts/keygen.ts | all | double-revoke reverts (AlreadyRevoked) instead of no-op
+20:08 | packages/contracts/{deploy.sh,broadcast/} scripts/fund-eth.ts docs/{versions,evidence}.md | all | deploy target + funding amounts
