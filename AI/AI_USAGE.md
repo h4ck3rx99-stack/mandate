@@ -29,3 +29,4 @@ time | files | AI-generated | human review needed
 01:15 | Build.tsx Box/Type, cast.ts, BuildScroll uncaged + 4 cursors, page/docs sections | AI-generated | human review of motion
 01:27 | globals.css tokens, layout fonts, Nav, landing, weights/radii across dashboard, DECISIONS | AI-generated | human review of visual style
 01:35 | README.md, DEMO.md | AI-generated | human review of claims + demo narration
+01:50 | payment-service serial.ts (+test), execute.ts receipt row id, BuildScroll autoplay | AI-generated | human review
