@@ -9,7 +9,7 @@ const owner = privateKeyToAccount(process.env.OWNER_PRIVATE_KEY as Hex);
 const pub = createPublicClient({ chain, transport: http() }) as any;
 const w = createWalletClient({ chain, transport: http(), account: owner }) as any;
 const amount = parseEther(process.argv[2] ?? "2");
-for (const r of ["OPS", "PROCURE"]) {
+for (const r of (process.argv[3] ?? "OPS,PROCURE").split(",")) {
   const to = process.env[`${r}_ADDRESS`] as Address;
   const hash = await w.sendTransaction({ to, value: amount, chain });
   await pub.waitForTransactionReceipt({ hash });

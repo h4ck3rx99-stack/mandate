@@ -49,6 +49,11 @@ export function openDb(path: string) {
       response TEXT NOT NULL
     );
   `);
+  try {
+    db.exec("ALTER TABLE requests ADD COLUMN arkiv_key TEXT");
+  } catch {
+    /* exists */
+  }
   return db;
 }
 export type Db = ReturnType<typeof openDb>;

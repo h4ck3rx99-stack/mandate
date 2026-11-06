@@ -173,3 +173,19 @@ describe("payment-service execute", () => {
     expect(fc.s.broadcasts).toBe(0);
   });
 });
+
+describe("decision receipts", () => {
+  it("published for final verdicts on signed chains; not for PENDING or unsigned garbage", async () => {
+    const jobs: any[] = [];
+    deps.publishReceipt = async (j) => (jobs.push(j), "0xkey");
+    const c = await chain3();
+    await execute(await wire(c, req(c[2]!, 450n * USDC)), deps); // DENIED
+    await execute(await wire(c, req(c[2]!, 1n * USDC)), deps); // EXECUTED
+    await execute(await wire(c, req(c[2]!, 5n * USDC)), deps); // PENDING
+    await execute({ chain: [], request: {} }, deps); // garbage
+    await new Promise((r) => setTimeout(r, 10));
+    expect(jobs.map((j) => j.decision)).toEqual(["DENIED", "EXECUTED"]);
+    expect(jobs[0]).toMatchObject({ failedCheck: "leaf_scope", leafName: "settle.procure.ops.t.eth", amount: 450n * USDC });
+    expect(JSON.stringify(jobs, (_k, v) => (typeof v === "bigint" ? v.toString() : v))).not.toMatch(/INVOICE/);
+  });
+});

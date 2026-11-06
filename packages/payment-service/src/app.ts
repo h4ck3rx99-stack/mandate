@@ -42,10 +42,13 @@ export function createApp(d: Deps, world?: Router) {
     const sendWorld = (ev: unknown) => res.write(`event: world\ndata: ${JSON.stringify(ev)}\n\n`);
     d.events.on("request", send);
     d.events.on("world", sendWorld);
+    const sendReceipt = (ev: unknown) => res.write(`event: receipt\ndata: ${JSON.stringify(ev)}\n\n`);
+    d.events.on("receipt", sendReceipt);
     req.on("close", () => {
       clearInterval(ping);
       d.events.off("request", send);
       d.events.off("world", sendWorld);
+      d.events.off("receipt", sendReceipt);
     });
   });
 

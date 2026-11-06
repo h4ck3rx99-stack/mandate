@@ -22,6 +22,14 @@ export interface Deps {
   now: () => bigint;
   events: EventEmitter;
   receiptTimeoutMs?: number;
+  /** Optional: publish a public decision receipt (e.g. to Arkiv). Must not throw into the request path. */
+  publishReceipt?: (r: ReceiptJob) => Promise<string>;
+}
+
+export interface ReceiptJob {
+  requestHash: string; decision: "EXECUTED" | "DENIED"; failedCheck: string; rootId: string; leafId: string;
+  leafSubject: `0x${string}`; leafName: string; amount: bigint; target: string; txHash: string; at: number;
+  checks: Check[]; violations: Violation[];
 }
 
 // Serialize sign+broadcast so two concurrent transfers never reuse the service account's tx nonce.
@@ -75,6 +83,23 @@ export async function execute(raw: unknown, d: Deps): Promise<ExecuteResponse> {
         Number(now), v.requestHash ?? null, v.chain?.at(-1)?.subject ?? null, v.request?.amount.toString() ?? null, v.request?.target ?? null, decision, json,
       );
     d.events.emit("request", res);
+    // Public receipt only for final verdicts on requests whose chain signatures verified (no cost for unsigned spam).
+    const sigOk = checks.some((c) => c.name === "signatures" && c.ok);
+    if (d.publishReceipt && decision !== "PENDING" && sigOk && v.request && v.chain && v.requestHash) {
+      const leaf = v.chain.at(-1)!;
+      const job: ReceiptJob = {
+        requestHash: v.requestHash, decision, failedCheck: checks.find((c) => !c.ok)?.name ?? "", rootId: v.chain[0]!.id, leafId: leaf.id,
+        leafSubject: leaf.subject, leafName: leaf.subjectName, amount: v.request.amount, target: v.request.target, txHash: res.txHash ?? "",
+        at: Number(now), checks, violations,
+      };
+      d.publishReceipt(job).then(
+        (key) => {
+          db.prepare("UPDATE requests SET arkiv_key = ? WHERE request_hash = ? AND decision = ?").run(key, v.requestHash!, decision);
+          d.events.emit("receipt", { requestHash: v.requestHash, decision, entityKey: key });
+        },
+        (e) => console.error("receipt publish failed:", String(e).slice(0, 200)),
+      );
+    }
     return res;
   };
   const deny = (name: string, plainEnglish: string, detail: string) => {

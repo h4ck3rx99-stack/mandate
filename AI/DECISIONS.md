@@ -12,3 +12,5 @@
 | 22:33 | Dashboard hero: tagline "Agents can subcontract work. Authority must not expand." as headline + pitch opener as sub-line | human |
 | 22:33 | Scenario 2 split into two beats: 2a real model output (inflated to 300, within limits) -> needs World approval; 2b labelled rogue fixture asks 450 -> DENIED | human |
 | 22:33 | Motion: restrained; hold tripped breaker ~1.5 s before showing ASKED 450 / ALLOWED 150; no screen flash; respect prefers-reduced-motion | human |
+| 22:41 | World integration paused until ~02:00 (portal laggy); code stays, PENDING path live | human |
+| 22:41 | Arkiv addition: decision receipts written by the payment service, read by dashboard timeline/profile + CLI | human |

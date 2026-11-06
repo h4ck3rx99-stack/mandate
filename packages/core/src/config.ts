@@ -3,6 +3,7 @@ import type { Address, Hex } from "viem";
 
 const address = z.string().regex(/^0x[0-9a-fA-F]{40}$/).transform((s) => s as Address);
 const pk = z.string().regex(/^0x[0-9a-fA-F]{64}$/).transform((s) => s as Hex);
+const optional = <T extends z.ZodType>(t: T) => z.preprocess((v) => (v === "" ? undefined : v), t.optional());
 const big = z.string().regex(/^[0-9]+$/).transform(BigInt);
 
 /** Payment-service config. Everything security-relevant comes from here, never from the request. */
@@ -20,10 +21,10 @@ export const serviceConfigSchema = z.object({
   MAX_REQUEST_TTL_SEC: big.default(300n),
   WORLD_APPROVAL_TTL_SEC: big.default(300n),
   // World ID Agent Pass (optional: /world routes are disabled when unset)
-  WORLD_ISSUER: z.string().url().optional(),
-  WORLD_CLIENT_ID: z.string().min(1).optional(),
-  WORLD_CLIENT_SECRET: z.string().min(1).optional(),
-  WORLD_REDIRECT_URI: z.string().url().optional(),
+  WORLD_ISSUER: optional(z.string().url()),
+  WORLD_CLIENT_ID: optional(z.string().min(1)),
+  WORLD_CLIENT_SECRET: optional(z.string().min(1)),
+  WORLD_REDIRECT_URI: optional(z.string().url()),
   WORLD_ACCEPTED_ACR: z.string().default("https://world.org/oidc/acr/orb,https://world.org/oidc/acr/orb-face"),
   /** JSON map target-id -> payee address, e.g. {"supplier-A":"0x..."} */
   TARGETS_JSON: z.string().transform((s, ctx) => {

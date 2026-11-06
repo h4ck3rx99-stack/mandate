@@ -5,3 +5,4 @@ export * from "./procure.js";
 export * from "./settle.js";
 export * from "./ens.js";
 export * from "./publish.js";
+export * from "./upstream.js";

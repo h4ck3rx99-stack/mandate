@@ -19,3 +19,4 @@ time | files | AI-generated | human review needed
 22:22 | packages/arkiv scripts/fund-arkiv.mts scripts/probes/* docs/versions.md | all | none
 22:26 | packages/cli packages/arkiv/src/inspect.ts packages/agents/src/publish.ts packages/core/src/verify.ts scripts/scenarios.ts | all | fail-closed rules for stale/foreign-owned Arkiv records
 22:27 | packages/cli/package.json | fix | none
+22:33 | AI/DECISIONS.md | no | decisions are human
