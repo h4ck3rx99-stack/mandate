@@ -6,7 +6,8 @@
   "scripts": {
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
-    "keygen": "tsx scripts/keygen.ts"
+    "keygen": "tsx scripts/keygen.ts",
+    "fund:eth": "tsx scripts/fund-eth.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

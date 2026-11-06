@@ -31,7 +31,7 @@ Checked 2026-11-06 19:20–19:40 IST. npm versions came from `npm view <pkg> ver
 |---|---|---|
 | chainId | 11155111 | viem `sepolia` |
 | USDC (Circle) | `0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238` | https://developers.circle.com/stablecoins/usdc-contract-addresses |
-| USDC decimals | 6 (**UNVERIFIED**: probe `decimals()` before first transfer) | Circle docs don't state it |
+| USDC decimals | 6 (verified by an onchain `decimals()` probe) | |
 | USDC faucet | https://faucet.circle.com | |
 
 ## ENS v2 (Sepolia)
@@ -85,3 +85,10 @@ Step-up rules: `max_age=0` plus `claims={"id_token":{"acr":{"essential":true,"va
 **Constraint:** callbacks must be exact HTTPS URLs, and HTTP localhost is not supported, so the service needs an HTTPS URL (a deployed host or a tunnel).
 
 Fallback (IDKit, $2.5k): `@worldcoin/idkit` 4.6.0, simulator https://simulator.worldcoin.org , portal https://developer.worldcoin.org .
+
+## Mandate deployments (Sepolia)
+| Contract | Address | Deploy tx |
+|---|---|---|
+| RevocationRegistry | [0x7ebd3ef7f01892d216f590e4da45d2c681e664b8](https://sepolia.etherscan.io/address/0x7ebd3ef7f01892d216f590e4da45d2c681e664b8) | [0x0dc513d1…256d](https://sepolia.etherscan.io/tx/0x0dc513d1ff2e9e4960a3ac4ddfe65632957affe82eb715b518e774f663d8256d) (block 12076167) |
+
+USDC `decimals()` was probed on Sepolia at 19:4x IST and returned **6** (verified).
