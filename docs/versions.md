@@ -92,3 +92,8 @@ Fallback (IDKit, $2.5k): `@worldcoin/idkit` 4.6.0, simulator https://simulator.w
 | RevocationRegistry | [0x7ebd3ef7f01892d216f590e4da45d2c681e664b8](https://sepolia.etherscan.io/address/0x7ebd3ef7f01892d216f590e4da45d2c681e664b8) | [0x0dc513d1…256d](https://sepolia.etherscan.io/tx/0x0dc513d1ff2e9e4960a3ac4ddfe65632957affe82eb715b518e774f663d8256d) (block 12076167) |
 
 USDC `decimals()` was probed on Sepolia on 2026-11-06 (~20:05 IST) and returned **6** (verified).
+
+## ENS root (verified by a probe, `scripts/probes/ens-root.mts`)
+- `mandate.eth`: ETHRegistry `findOwner("mandate")` returns OWNER `0x1d8a886CB0df503e7b21805048395ef7Fc98b586`. Resolver `0x416a24F94AaEaf21BbaE285882a9Dfd56Fda7c25` (set by the app); no subregistry yet; expires 1825539456 (Nov 2027).
+- MockUSDC on Sepolia has a public `mint(address,uint256)` (confirmed by probe); OWNER minted 50 to pay the registration fee.
+- PermissionedRegistry role values come from https://docs.ens.domains/ensv2/permissioned-registry: REGISTRAR 1<<0, REGISTER_RESERVED 1<<4, SET_PARENT 1<<8, UNREGISTER 1<<12, RENEW 1<<16, SET_SUBREGISTRY 1<<20, SET_RESOLVER 1<<24, CAN_TRANSFER_ADMIN (1<<28)<<128, SET_URI 1<<36, UPGRADE 1<<124. The admin form of each role is role<<128.
