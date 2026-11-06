@@ -19,7 +19,7 @@ Checked 2026-11-06 19:20–19:40 IST. npm versions came from `npm view <pkg> ver
 | vitest | 5.1.0 | tests |
 | express | 5.3.0 | payment-service, sdk |
 | better-sqlite3 | 13.0.3 | payment-service nonces/requests |
-| @google/genai | 3.0.0 | procure agent (Gemini free tier, see AI/DECISIONS.md); model id picked by a models.list probe |
+| Groq API (OpenAI-compatible, `https://api.groq.com/openai/v1`) | model `openai/gpt-oss-120b` | procure agent. A probe at 20:24 IST confirmed a forced tool call returns JSON args. Gemini was rejected: its free tier gave 403 on this account |
 | next | 16.4.5 | dashboard |
 | tailwindcss | 4.3.4 | dashboard |
 | tsx | 4.23.15 | scripts |
