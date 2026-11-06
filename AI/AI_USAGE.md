@@ -28,3 +28,4 @@ time | files | AI-generated | human review needed
 01:02 | dashboard landing sections, BuildScroll cursors/handles/autoplay, docs page, Nav, REPO_URL env | AI-generated | human review of copy/design
 01:15 | Build.tsx Box/Type, cast.ts, BuildScroll uncaged + 4 cursors, page/docs sections | AI-generated | human review of motion
 01:27 | globals.css tokens, layout fonts, Nav, landing, weights/radii across dashboard, DECISIONS | AI-generated | human review of visual style
+01:35 | README.md, DEMO.md | AI-generated | human review of claims + demo narration
