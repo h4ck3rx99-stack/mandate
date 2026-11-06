@@ -26,3 +26,4 @@ time | files | AI-generated | human review needed
 23:43 | packages/dashboard/src/app/layout.tsx | fix | none
 00:56 | dashboard landing BuildScroll.tsx, stage route move | AI-generated | human review of motion/design
 01:02 | dashboard landing sections, BuildScroll cursors/handles/autoplay, docs page, Nav, REPO_URL env | AI-generated | human review of copy/design
+01:15 | Build.tsx Box/Type, cast.ts, BuildScroll uncaged + 4 cursors, page/docs sections | AI-generated | human review of motion
