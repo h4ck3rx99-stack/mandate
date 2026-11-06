@@ -27,3 +27,4 @@ time | files | AI-generated | human review needed
 00:56 | dashboard landing BuildScroll.tsx, stage route move | AI-generated | human review of motion/design
 01:02 | dashboard landing sections, BuildScroll cursors/handles/autoplay, docs page, Nav, REPO_URL env | AI-generated | human review of copy/design
 01:15 | Build.tsx Box/Type, cast.ts, BuildScroll uncaged + 4 cursors, page/docs sections | AI-generated | human review of motion
+01:27 | globals.css tokens, layout fonts, Nav, landing, weights/radii across dashboard, DECISIONS | AI-generated | human review of visual style
