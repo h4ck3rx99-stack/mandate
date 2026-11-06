@@ -1,0 +1,15 @@
+node_modules/
+.next/
+dist/
+build/
+out/
+cache/
+.env
+.env.*
+!.env.example
+*.db
+*.db-*
+graphify-out/
+coverage/
+# local hook config with machine-specific absolute paths
+.claude/settings.json
